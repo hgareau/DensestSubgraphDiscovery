@@ -93,7 +93,7 @@ public:
         return FlowNetwork1;
     }
 
-    std::vector<std::unordered_map<int, double[]>> Update(double alph) {
+    std::unordered_map<int, std::vector<double>>Update(double alph) {
         // sets tink as the sink
         int tink = graph_size + Motif_Record.size() + 1;
         double temp_array[2]; // creates empty temp array
@@ -114,17 +114,6 @@ public:
         }
         // return the updated Flow Network
         return FlowNetwork1;
-    }
-
-    std::vector<std::unordered_map<int, double[]>> Update1(double alph) {
-        int tink = graph_size + Motif_Record.size() + 1;
-        double temp_array[2];
-        for (int i = 0; i < graph_size; ++i) {
-            temp_array[0] = alph * motif_size - FlowNetwork2[i][tink][0];
-            temp_array[1] = alph * motif_size;
-            FlowNetwork2[i][tink] = temp_array;
-        }
-        return FlowNetwork2;
     }
 
 };
