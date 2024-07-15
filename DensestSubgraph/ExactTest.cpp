@@ -88,12 +88,12 @@ public:
             }
 
             // Perform the CDS decomposition
-            CDSdecompose c(Graph, Motif, a.getGraph_Size(), Motif[0].size(), a.getMotif_Count(), nullptr, nullptr);
+            CDSDecompose c(Graph, Motif, a.getGraph_Size(), Motif[0].size(), a.getMotif_Count(), nullptr, nullptr);
             std::vector<std::vector<double>> r_d = c.Decompose();
 
             // Locate the densest k-core
             LocateCore d(Graph, r_d, a.getGraph_Size());
-            struct LocateCore::DensestCore r_c = d.locate();
+            DensestCore r_c = d.locate();
 
             // Maintain the motif degrees of vertices
             KList b(r_c.Graph, a.Motif.size());
@@ -104,7 +104,7 @@ public:
             std::queue<Component> r_q = f.decompose();
 
             // Run the CoreExact algorithm
-            DynamicExactalgo g(r_q, r_c, Motif[0].size());
+            DynamicExactAlgo g(r_q, r_c, Motif[0].size());
             MDS mds = g.DynamicExact();
 
             //This has to do with Printing in C++

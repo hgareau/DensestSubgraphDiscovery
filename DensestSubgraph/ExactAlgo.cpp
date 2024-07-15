@@ -5,102 +5,63 @@
 #include <algorithm>
 #include <cmath>
 #include <cstring>
+#include <unordered_map>
+#include <string>
 #include "FindMinCut.h"
 #include "FlowNetwork.h"
 #include "ExactAlgo.h"
 
-class Exactalgo {
-private:
-    std::unordered_map<std::string, std::vector<int>> Motif_Record;
-    int motif_size;
-    int graph_size;
-    std::vector<int> Motif_degree;
+ExactAlgo::ExactAlgo(std::unordered_map<std::string, std::vector<int>> map, int motif_size, int graph_size, std::vector<int> Motif_degree)
+{
+    this->Motif_Record = map;
+    this->motif_size = motif_size;
+    this->graph_size = graph_size;
+    this->Motif_degree = Motif_degree;
+}
 
-public:
-    Exactalgo(std::map<std::string, std::vector<int>>& map, int motif_size, int graph_size, std::vector<int>& Motif_degree)
-        : Motif_Record(map), motif_size(motif_size), graph_size(graph_size), Motif_degree(Motif_degree) {}
+std::vector<int> ExactAlgo::Exact(double l, double u, long motif_num)
+{
+    // Creates a flow network instance from the given info
+    FlowNetwork flownetwork(Motif_Record, motif_size, graph_size, Motif_degree);
 
-    std::vector<int> Exact(double l, double u, long motif_num) {
-        FlowNetwork flownetwork(Motif_Record, motif_size, graph_size, Motif_degree);
-        double alph = (u + l) / 2;
-        double bais = 1.0 / (graph_size * (graph_size - 1));
-        if (bais < 0.000000000000001) {
-            bais = 0.000000000000001;
-        }
-        std::unordered_map<std::string, std::vector<int>> Network = flownetwork.Construct(alph);
+    // Sets alpha as the average of the upper and lower bound
+    double alph = (u + l) / 2;
 
-        FindMinCut compute(Network, Network.size() - 2, Network.size() - 1);
-        double res_flow = 0, res_alph = 0;
-        std::vector<int> res(graph_size, 1);
-
-        while (u - l > bais) {
-            double temp = compute.EdmondsKarp();
-            std::cout << "upper_bound: " << u << "   low_bound:" << l << "   next guess:" << alph << std::endl;
-
-            if (temp == motif_num * motif_size) {
-                u = alph;
-            } else {
-                l = alph;
-                res_alph = alph;
-                res_flow = temp;
-                auto temp_array = compute.getparent();
-                for (int i = 0; i < graph_size; ++i) {
-                    res[i] = temp_array[i];
-                }
-            }
-            alph = (u + l) / 2;
-            Network = flownetwork.Update(alph);
-        }
-
-        return res;
+    // Sets the bias value
+    double bais = 1.0 / (graph_size * (graph_size - 1));
+    if (bais < 0.000000000000001) {
+        bais = 0.000000000000001;
     }
 
-    std::vector<int> Exact(double l, double u, long motif_num, long n2) {
-        FlowNetwork flownetwork(Motif_Record, motif_size, graph_size, Motif_degree);
-        double alph = (u + l) / 2;
-        double bais = 1.0 / (n2 * (n2 - 1));
-        if (bais < 0.000000000000001) {
-            bais = 0.000000000000001;
-        }
-        std::unordered_map<std::string, std::vector<int>> Network = flownetwork.Construct(alph);
+    // Fully constructs the flow network with the current test density
+    std::unordered_map<int, std::vector<double>>* Network = flownetwork.Construct(alph);
 
-        FindMinCut compute(Network, Network.size() - 2, Network.size() - 1);
-        double res_flow = 0, res_alph = 0;
-        std::vector<int> res(graph_size, 1);
+    // Creates a FindMinCut object from the Flow Network, the source, and the sink
+    FindMinCut compute(Network, Network->size() - 2, Network->size() - 1);
 
-        while (u - l > bais) {
-            double temp = compute.EdmondsKarp();
-            std::cout << u << " " << l << " " << alph << " " << temp << " " << motif_num * motif_size << std::endl;
+    // Creates the result array and fills it with 1s
+    std::vector<int> res(graph_size, 1);
 
-            if (temp == motif_num * motif_size) {
-                u = alph;
-            } else {
-                l = alph;
-                res_alph = alph;
-                res_flow = temp;
-                auto temp_array = compute.getparent();
-                for (int i = 0; i < graph_size; ++i) {
-                    res[i] = temp_array[i];
-                }
-            }
-            alph = (u + l) / 2;
-            Network = flownetwork.Update(alph);
-        }
-
-        return res;
-    }
-
-    bool Try(double l, long motif_num) {
-        FlowNetwork flownetwork(Motif_Record, motif_size, graph_size, Motif_degree);
-        double alph = l;
-        std::unordered_map<std::string, std::vector<int>> Network = flownetwork.Construct(alph);
-        FindMinCut compute(Network, Network.size() - 2, Network.size() - 1);
+    // The main loop of Exact
+    while (u - l > bais) {
+        // Computes the maximum flow in the current graph
         double temp = compute.EdmondsKarp();
 
-        if (temp == motif_num * motif_size && temp != graph_size * alph * motif_size) {
-            return false;
+        // Updates the upper and lower bounds
+        if (temp == motif_num * motif_size) {
+            u = alph;
         } else {
-            return true;
+            l = alph;
+            std::vector<int> temp_array = compute.getparent();
+            for (int i = 0; i < graph_size; ++i) {
+                res[i] = temp_array[i];
+            }
         }
+
+        // Updates alpha and the flow network
+        alph = (u + l) / 2;
+        Network = flownetwork.Update(alph);
     }
-};
+
+    return res;
+}

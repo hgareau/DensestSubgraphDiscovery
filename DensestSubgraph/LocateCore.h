@@ -1,11 +1,12 @@
 #include <DensestCore.h>
+#include <vector>
 
 #ifndef LOCATECORE_H
 #define LOCATECORE_H
 
 class LocateCore {
 public:
-    LocateCore(int** Graph, double** core, int graph_size);
-    DensestCore locate(double** core, int** Graph, int graph_size);
+    LocateCore(std::vector<std::vector<int>> Graph, std::vector<std::vector<double>> core, int graph_size);
+    DensestCore locate();
 };
 #endif

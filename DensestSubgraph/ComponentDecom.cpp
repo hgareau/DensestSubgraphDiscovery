@@ -25,7 +25,7 @@ class ComponentDecom {
         // this->core = core;
     }
 
-    std::queue<Component> decompose(const std::vector<std::vector<int>>& graph, int graph_size, const std::unordered_map<std::string, std::vector<int>>& motif_list) {
+    std::queue<Component> decompose() {
         // creates array delete[] of equal size to the graph and fills it with 0s
         std::vector<int> delete_arr(graph_size, 0);
 
@@ -65,7 +65,7 @@ class ComponentDecom {
                 motif_num += temp[motif_size];
             }
             // creates a component object and adds it to result
-            Component c(graph, graph_size, motif_list, motif_num, static_cast<double>(motif_num) / graph_size, motif_degree);
+            Component c(Graph, graph_size, motif_list, motif_num, static_cast<double>(motif_num) / graph_size, motif_degree);
             result.push(c);
         } else {
             std::vector<std::unordered_map<std::string, std::vector<int>>> map_array(index + 1);

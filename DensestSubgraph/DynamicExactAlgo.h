@@ -6,10 +6,13 @@
 #ifndef DYNAMICEXACT_H
 #define DYNAMICEXACT_H
 
-class DynamicExact {
+class DynamicExactAlgo {
 public:
-    DynamicExactalgo(std::queue<Component*> queue, DensestCore* Core, int motif_size)
-        : queue(queue), Core(Core), motif_size(motif_size) {};
+    std::queue<Component> queue;
+    DensestCore Core;
+    int motif_size;
+
+    DynamicExactAlgo(std::queue<Component> queue, DensestCore Core, int motif_size);
     MDS DynamicExact();
 };
 #endif

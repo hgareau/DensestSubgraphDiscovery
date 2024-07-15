@@ -9,23 +9,23 @@
 
 class LocateCore {
     // Adjacency list to represent the graph
-    int** Graph = nullptr;
+    std::vector<std::vector<int>> Graph;
     // int** Motif = nullptr;
     // This is an array of arrays for every vertex (not necessarily
     // in order of vertex 0 to vertex 1 to vertex 2 etc. however)
     // Each vertex's array has various pieces of information
-    double** core = nullptr;
+    std::vector<std::vector<double>> core;
     // number of vertices in the graph
     int graph_size;
 
 
-    LocateCore(int** Graph, double** core, int graph_size) {
+    LocateCore(std::vector<std::vector<int>> Graph, std::vector<std::vector<double>> core, int graph_size) {
         this->Graph = Graph;
         this->core = core;
         this->graph_size = graph_size;
     }
 
-    DensestCore locate(double** core, int** Graph, int graph_size) {
+    DensestCore locate() {
         double max = core[0][2]; // sets max as the density of the full graph
         double kmax = 0; // sets the maximum k-value as 0 (changed by degrees)
 
@@ -117,6 +117,8 @@ class LocateCore {
         // result is set as a DensestCore (k-core of highest density)
         //Some weird error here. Claims it doesn't match the constructor, but as far as I can tell these variables should
         //match (even after casting the 2nd to last variable to a "double")
-        return DensestCore(New_Graph.data(), New_graph_size, low_bound, index - 1, delete_motif, static_cast<double>(core[index - 1][2]), static_cast<int>(kmax));
+        //DensestCore(std::vector<std::vector<int>> Graph, int graph_size, int kcore,
+                //int delete_vertex, int delete_motif, double densest, int kmax);
+        return DensestCore(New_Graph, New_graph_size, low_bound, index - 1, delete_motif, static_cast<double>(core[index - 1][2]), static_cast<int>(kmax));
     }
 };

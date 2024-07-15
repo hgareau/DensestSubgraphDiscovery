@@ -7,22 +7,9 @@
 #include "CDSDecompose.h"
 #include "KList.h"
 
-class CDSdecompose {
-private:
-    std::vector<std::vector<int>> Graph;
-    std::vector<std::vector<int>> Motif;
-    int graph_size;
-    int motif_size;
-    std::vector<long long> degree;
-    std::vector<std::unordered_map<int, int>> Share;
-    int motif_type;
-    std::unordered_map<std::string, std::vector<int>> motif_list;
-    std::vector<long long> motif_degree;
-
-public:
-    CDSDecompose::CDSdecompose(std::vector<std::vector<int>> Graph, std::vector<std::vector<int>> Motif, int graph_size, int motif_size, int motif_type, std::unordered_map<std::string, std::vector<int>> motif_list, std::vector<long long> motif_degree)
-    {
-        this->motif_list = motif_list;
+CDSDecompose::CDSDecompose(std::vector<std::vector<int>> Graph, std::vector<std::vector<int>> Motif, int graph_size, int motif_size, int motif_type, std::unordered_map<std::string, std::vector<int>> motif_list, std::vector<long long> motif_degree)
+{
+    this->motif_list = motif_list;
         this->Graph = Graph;
         this->Motif = Motif;
         this->graph_size = graph_size;
@@ -44,11 +31,11 @@ public:
         for (int i = 0; i < graph_size; ++i) {
             this->Share[i] = std::unordered_map<int, int>();
         }
-    }
+}
 
-    std::vector<std::vector<double>> CDSDecompose::Decompose(std::vector<std::vector<int>> &Graph, int graph_size, int motif_size)
-    {
-        // A lot of variables are set up
+std::vector<std::vector<double>> CDSDecompose::Decompose()
+{
+    // A lot of variables are set up
 
         //max is the maximum motif degree
         long max = 0;
@@ -250,8 +237,9 @@ public:
         return result;
 }
 
-    std::unordered_map<int, long> CDSDecompose::Generate(int index, std::vector<int> &mark, std::vector<int> &array, std::vector<int> &map_s){
-        std::vector<int> temp_list; // create temporary vector
+std::unordered_map<int, long> CDSDecompose::Generate(int index, std::vector<int> &mark, std::vector<int> &array, std::vector<int> &map_s)
+{
+    std::vector<int> temp_list; // create temporary vector
         temp_list.push_back(index); // add input vertex to list
         array[index] = 1; // set the value at position index in array as 1
         std::queue<int> queue; // create a queue
@@ -355,5 +343,4 @@ public:
         }
         // returns result, which is a map of vertices and their motif degrees in the pruned subgraph
         return result;
-    }
-};
+}
