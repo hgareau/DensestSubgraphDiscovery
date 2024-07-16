@@ -7,7 +7,7 @@
 #include "CDSDecompose.h"
 #include "KList.h"
 
-CDSDecompose::CDSDecompose(std::vector<std::vector<int>> Graph, std::vector<std::vector<int>> Motif, int graph_size, int motif_size, int motif_type, std::unordered_map<std::string, std::vector<int>> motif_list, std::vector<long long> motif_degree)
+CDSDecompose::CDSDecompose(std::vector<std::vector<int>> Graph, std::vector<std::vector<int>> Motif, int graph_size, int motif_size, int motif_type)
 {
     this->motif_list = motif_list;
         this->Graph = Graph;

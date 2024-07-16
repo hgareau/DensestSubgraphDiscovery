@@ -11,8 +11,7 @@ private:
     std::unordered_map<std::string, std::vector<int>> Motif_Record;
     int motif_size;
     int graph_size;
-    std::unordered_map<int, std::vector<double>> FlowNetwork1;
-    std::unordered_map<int, std::vector<double>> FlowNetwork2;
+    std::vector<std::unordered_map<int, std::vector<double>>> FlowNetwork1;
     std::vector<int> Motif_degree;
 
 public:
@@ -45,7 +44,7 @@ public:
         // For every motif in the graph
         for (auto entry : Motif_Record) {
             // Set temp_array as the list of vertices in this motif
-            temp_array = std::vector<int>(entry.second, entry.second + motif_size + 1);
+            temp_array = entry.second;
             // Weight = 1 * the id of the final vertex in this specific motif's vertex list
             weight = temp_array[motif_size] * (motif_size - 1);
 
@@ -100,9 +99,9 @@ public:
         // for every vertex and Motif + s (not sure how this works without brackets though)
         for (int i = 0; i <= tink; ++i) {
             // for every edge of vertex/motif i
-            for (auto& entry : FlowNetwork1[i]) {
-                temp_array[0] = entry.second[1]; // set the flow as the capacity
-                entry.second[0] = temp_array[0];
+            for (std::vector<double> entry : FlowNetwork1.at(i)) {
+                std::vector<double> temp_array = entry; // set the flow as the capacity
+                temp_array[0] = temp_array[1];
             }
         }
         // for every vertex in the graph

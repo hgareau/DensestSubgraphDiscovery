@@ -10,8 +10,7 @@ public:
     std::unordered_map<std::string, std::vector<int>> Motif_Record;
     int motif_size;
     int graph_size;
-    std::unordered_map<int, std::vector<double>> FlowNetwork1;
-    std::unordered_map<int, std::vector<double>> FlowNetwork2;
+    std::vector<std::unordered_map<int, std::vector<double>>> FlowNetwork1;
     std::vector<int> Motif_degree;
     
     FlowNetwork(std::unordered_map<std::string, std::vector<int>> map, int motif_size, int graph_size, std::vector<int> Motif_degree);

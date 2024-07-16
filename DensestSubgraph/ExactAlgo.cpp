@@ -34,10 +34,10 @@ std::vector<int> ExactAlgo::Exact(double l, double u, long motif_num)
     }
 
     // Fully constructs the flow network with the current test density
-    std::unordered_map<int, std::vector<double>>* Network = flownetwork.Construct(alph);
+    std::vector<std::unordered_map<int, std::vector<double>>> Network = flownetwork.Construct(alph);
 
     // Creates a FindMinCut object from the Flow Network, the source, and the sink
-    FindMinCut compute(Network, Network->size() - 2, Network->size() - 1);
+    FindMinCut compute(Network, Network.size() - 2, Network.size() - 1);
 
     // Creates the result array and fills it with 1s
     std::vector<int> res(graph_size, 1);

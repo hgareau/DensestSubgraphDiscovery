@@ -23,8 +23,9 @@ MDS DynamicExactAlgo::DynamicExact()
     index = queue.front();
     double low_bound = 0;
 
-    while (C != queue.back()) {
-        C <- queue.pop();
+    while (!queue.empty()) {
+        C = queue.front();
+        queue.pop();
         if (low_bound < C.densest) {
             low_bound = C.densest;
             index = C;
@@ -37,7 +38,9 @@ MDS DynamicExactAlgo::DynamicExact()
 
     double up_bound = Core.kmax;
 
-    MDS mds(nullptr, index.motif_num, index.graph_size, low_bound);
+    std::vector<int> placeholder;
+
+    MDS mds(placeholder, index.motif_num, index.graph_size, low_bound);
 
     while (!queue.empty()) {
         C = queue.front();

@@ -88,7 +88,7 @@ public:
             }
 
             // Perform the CDS decomposition
-            CDSDecompose c(Graph, Motif, a.getGraph_Size(), Motif[0].size(), a.getMotif_Count(), nullptr, nullptr);
+            CDSDecompose c(Graph, Motif, a.getGraph_Size(), Motif[0].size(), a.getMotif_Count());
             std::vector<std::vector<double>> r_d = c.Decompose();
 
             // Locate the densest k-core

@@ -11,3 +11,7 @@
         this->densest = densest;
         this->kmax = kmax;
     }
+
+    DensestCore::DensestCore()
+    {
+    }
