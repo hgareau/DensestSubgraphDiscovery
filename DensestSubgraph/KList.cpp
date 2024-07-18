@@ -5,22 +5,8 @@
 #include "KList.h"
 #include "KCore.h"
 
-class KList {
-private:
-    std::vector<std::vector<int>> graph; // DAG of the graph
-    int k; // This is the size of the given motif
-    std::vector<int> order; // core values of the vertices + 1
-    static int graph_size; // number of vertices in the graph
-    std::vector<int> degree; // the "edge" degrees of every vertex in the DAG
-    std::vector<int> label; // the current motif size each vertex is in
-    int motif_num = 0; // the number of motifs in the DAG
-    std::vector<long> motif_degree; // The motif degree of every vertex in the DAG
-    std::vector<std::vector<std::string>> Adjlist;
-    std::vector<std::vector<int>> GenGraph;
-    std::unordered_map<std::string, std::vector<int>> Statistic; // Statistic is a map of all the motifs in the DAG
-
-public:
-    KList(std::vector<std::vector<int>> graph, int k) {
+    KList::KList(std::vector<std::vector<int>> graph, int k)
+    {
         GenGraph = graph;
         this->graph = std::move(graph);
         this->k = k;
@@ -32,8 +18,9 @@ public:
         Adjlist.resize(graph_size);
     }
 
-    // sets up order[]
-    void getListingOrder() {
+    //sets up order[]
+    void KList::getListingOrder()
+    {
         // KCore and decompose() gets an array of the k-core values for every vertex in the graph
         // (This is not CDS decomp though, it's for edges not motifs)
         std::vector<int> temp_arr = KCore(GenGraph).obtainReverseCoreArr();
@@ -47,7 +34,8 @@ public:
 
     // This will set up graph[][] as a DAG
     // A DAG is a directed graph with no loops
-    void GenerateDAG() {
+    void KList::GenerateDAG()
+    {
         // Need to create a new adjacency list such that no loops exist
         // for every vertex in the graph, set up
         for (int i = 0; i < graph_size; ++i) {
@@ -78,8 +66,9 @@ public:
 
     //The only difference between this and Listing is the setup of Statistic,
     //which is a map of all the motifs
-    void ListingRecord(int k, std::vector<int> c, std::vector<int> arr) {
-            //if our motif is edge OR the motif size has been reduced to 2
+    void KList::ListingRecord(int k, std::vector<int> c, std::vector<int> arr)
+    {
+        //if our motif is edge OR the motif size has been reduced to 2
             if(k==2) {
 //                  cout<<">>>"<<endl;
                     std::string a=""; //initialize blank string
@@ -224,14 +213,13 @@ public:
                             }
                     }
             }
-            
     }
-    
+
     //This is a recursive function that finds the number of motifs in the graph and the motif degree
     //of every vertex
-    void Listing(int k,std::vector<int> c,std::vector<int> arr) {
-            
-            //if our motif is edge OR the motif size has been reduced to 2
+    void KList::Listing(int k, std::vector<int> c, std::vector<int> arr)
+    {
+        //if our motif is edge OR the motif size has been reduced to 2
             if(k==2) {
                     
                     std::string a=""; //initialize blank string
@@ -338,7 +326,6 @@ public:
                             }
                     }
             }
-            
     }
 
     //map always = 0?
@@ -346,8 +333,8 @@ public:
     //However, this is different as it is based around one node, map.
     //What it changes I'm unsure of. I can understand the code, but I don't understand
     //what it's doing really.
-    void Listing(int k, std::vector<int>& c, std::vector<int>& arr, int map) {
-
+    void KList::Listing(int k, std::vector<int> &c, std::vector<int> &arr, int map)
+    {
         //if our motif is edge OR the motif size has been reduced to 2
         if(k==2) {
             bool onenode=false; //set this boolean as false
@@ -457,77 +444,9 @@ public:
         }
     }
 
-    void Listing(int k, std::vector<int>& c, std::vector<int>& arr, int map[]) {
-        if(k==2) {
-            bool onenode=false;
-            std::string a="";
-            for(int m=0;m<c.size();++m) {
-                a+=std::to_string(c[m])+" ";
-                if(map[c[m]]==1) {
-                    onenode=true;
-                }
-            }
-            int multi=0;
-            for(int i=0;i<arr.size();++i) {
-                int temp=arr[i];
-                for(int j=0;j<degree[temp];++j) {
-                    if(onenode||map[temp]==1||map[graph[temp][j]]==1) {
-                        multi++;
-                        motif_num++;
-                        motif_degree[graph[temp][j]]++;
-                        motif_degree[temp]++;
-                    }
-                }
-            }
-            for(int m=0;m<c.size();++m) {
-                int temp=c[m];
-                motif_degree[temp]+=multi;
-            }
-        } else {
-            for(int i=0;i<arr.size();++i) {
-                int temp=arr[i];
-                //int count=0;
-                std::vector<int> arr_n;
-                for(int j=0;j<graph[temp].size();++j) {
-                    if(label[graph[temp][j]]==k) {
-                        label[graph[temp][j]]=k-1;
-                        //count++;
-                        arr_n.push_back(graph[temp][j]);
-                    }                                               
-                }
-                for(int j=0;j<arr_n.size();++j) {
-                    //int count=0;
-                    int arr_temp=arr_n[j];
-                    int index=0;
-                    for(int m=graph[arr_temp].size()-1;m>index;--m) {
-                        if(label[graph[arr_temp][m]]==k-1) {
-                            while(index<m&&label[graph[arr_temp][index]]==k-1) {
-                                index++;
-                            }
-                            if(label[graph[arr_temp][index]]!=k-1) {
-                                int temp1=graph[arr_temp][m];
-                                graph[arr_temp][m]=graph[arr_temp][index];
-                                graph[arr_temp][index]=temp1;
-                            }
-                        }
-                    }
-                    if(graph[arr_temp].size()!=0&&label[graph[arr_temp][index]]==k-1)
-                        index++;
-                    degree[arr_temp]=index;
-                }
-                c.push_back(arr[i]);
-                Listing(k-1,c,arr_n,map);
-                c.pop_back();
-                for(int j=0;j<arr_n.size();++j) {
-                    int arr_temp=arr_n[j];
-                    label[arr_temp]=k;
-                }
-            }
-        }
-    }
-
-    // finds the motif degrees of every vertex (Differently???)
-    void ListFast() {
+    // finds the motif degrees of every vertex
+    void KList::ListFast()
+    {
         // sets up order[] to be filled with the core value of every vertex + 1
         getListingOrder();
         // sets up graph as an adjacency list. A modified version of GenGraph (the original graph)
@@ -547,7 +466,8 @@ public:
     // This method sets up then runs ListingRecord.
     // This finds the number of motifs in the graph, the motif degree of every vertex, and the map Statistic
     // of every vertex
-    void ListRecord() {
+    void KList::ListRecord()
+    {
         // sets up order[] to be filled with the core value of every vertex + 1
         getListingOrder();
         // sets up graph as an adjacency list. A modified version of GenGraph (the original graph)
@@ -564,7 +484,8 @@ public:
         ListingRecord(k, c, arr);
     }
 
-    void ListOne(int a) {
+    void KList::ListOne(int a)
+    {
         // sets up order[] to be filled with the core value of every vertex + 1
         getListingOrder();
         // sets up graph as an adjacency list. A modified version of GenGraph (the original graph)
@@ -581,12 +502,12 @@ public:
         Listing(k, c, arr, a);
     }
 
-    int getMotifNum() {
+    int KList::getMotifNum()
+    {
         return motif_num;
     }
 
-    std::vector<long> getMotifDegree() {
+    std::vector<long> KList::getMotifDegree()
+    {
         return motif_degree;
     }
-
-};

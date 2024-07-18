@@ -1,7 +1,7 @@
 #include <queue>
-#include <MDS.h>
-#include <Component.h>
-#include <DensestCore.h>
+#include "MDS.h"
+#include "Component.h"
+#include "DensestCore.h"
 
 #ifndef DYNAMICEXACT_H
 #define DYNAMICEXACT_H

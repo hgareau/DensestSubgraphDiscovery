@@ -26,10 +26,9 @@ public:
     std::vector<int> motif_degree;
 
     // Constructor
-    Component(const std::vector<std::vector<int>>& Graph, int graph_size,
-              const std::unordered_map<std::string, std::vector<int>>& motif_list, long motif_num, double densest, const std::vector<int>& motif_degree)
-        : Graph(Graph), graph_size(graph_size), motif_list(motif_list), motif_num(motif_num), densest(densest), motif_degree(motif_degree) {};
+    Component(std::vector<std::vector<int>> Graph, int graph_size, 
+          std::unordered_map<std::string, std::vector<int>> motif_list, long motif_num, double densest, std::vector<int> motif_degree);
 
-    Component() = default;
+    Component();
 };
 #endif

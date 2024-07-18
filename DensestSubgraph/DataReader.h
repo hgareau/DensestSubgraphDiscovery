@@ -13,10 +13,9 @@ public:
     int graph_size = 0;
     std::vector<std::vector<int>> Graph;
     std::vector<std::vector<int>> Motif;
-    DataReader(const std::string& Graph_File, const std::string& Motif_File) 
-        : Graph_File(Graph_File), Motif_File(Motif_File) {};
+
+    DataReader(std::string Graph_File, std::string Motif_File);
     std::vector<std::vector<int>> readGraph();
-    std::vector<std::vector<int>> RereadGraph(const std::string& aaa);
     std::vector<std::vector<int>> readMotif();
     int getMotif_Type() const;
     int getMotif_Count() const;

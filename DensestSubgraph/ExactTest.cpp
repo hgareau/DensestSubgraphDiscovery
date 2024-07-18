@@ -69,7 +69,7 @@ public:
             // Assuming the necessary data structures are already set up
             std::vector<DataReader> g_data = { /* ... */ };
             std::vector<DataReader> m_data = { /* ... */ };
-            DataReader a = DataReader(0, 0);
+            a = DataReader(0, 0);
 
             // Set up the info in 'a'
             a.Graph = g_data[0].Graph;
