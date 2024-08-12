@@ -10,7 +10,7 @@
 #include "ComponentDecom.h"
 #include "DensestCore.h"
 #include "LocateCore.h"
-#include "CDSdecompose.h"
+#include "CDSDecompose.h"
 #include "Log.h"
 #include "DataReader.h"
 #include "MDS.h"

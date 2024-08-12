@@ -5,7 +5,7 @@ CXXFLAGS = -I.
 # List all the source files
 SRCS = CDSDecompose.cpp DataReader.cpp ExactTest.cpp LocateCore.cpp Component.cpp \
        DensestCore.cpp FindMinCut.cpp FlowNetwork.cpp Log.cpp ComponentDecom.cpp \
-       DynamicExactAlgo.cpp ExactAlgo.cpp KCore.cpp KList.cpp MDS.cpp Config.cpp
+       DynamicExactAlgo.cpp ExactAlgo.cpp KCore.cpp KList.cpp MDS.cpp
 
 # List all the object files (replace .cpp with .o)
 OBJS = $(SRCS:.cpp=.o)
@@ -16,9 +16,9 @@ TARGET = test
 # Default target
 all: $(TARGET)
 
-# Link the object files to create the executable
+# Link the object files to create the executable (INCLUDE -mconsole AT THE END OF LINE 21)
 $(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS) -mconsole
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS)
 
 # Compile each source file into an object file
 %.o: %.cpp

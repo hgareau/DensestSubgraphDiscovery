@@ -1,11 +1,8 @@
-//need to add the #includes
-//need to add the variable declarations
 #include <string>
 #include <vector>
-#include <Math.h>
+#include <cmath>
 #include "DensestCore.h"
 #include "LocateCore.h"
-#include <corecrt_math.h>
 
 LocateCore::LocateCore(std::vector<std::vector<int>> Graph, std::vector<std::vector<double>> core, int graph_size)
 {

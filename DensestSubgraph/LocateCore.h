@@ -1,4 +1,4 @@
-#include <DensestCore.h>
+#include "DensestCore.h"
 #include <vector>
 
 #ifndef LOCATECORE_H
