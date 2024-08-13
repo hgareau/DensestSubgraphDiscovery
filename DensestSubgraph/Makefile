@@ -3,7 +3,7 @@ CXX = g++
 CXXFLAGS = -I.
 
 # List all the source files
-SRCS = CDSDecompose.cpp DataReader.cpp ExactTest.cpp LocateCore.cpp Component.cpp \
+SRCS = ExactTest.cpp CDSDecompose.cpp DataReader.cpp LocateCore.cpp Component.cpp \
        DensestCore.cpp FindMinCut.cpp FlowNetwork.cpp Log.cpp ComponentDecom.cpp \
        DynamicExactAlgo.cpp ExactAlgo.cpp KCore.cpp KList.cpp MDS.cpp
 
@@ -11,12 +11,12 @@ SRCS = CDSDecompose.cpp DataReader.cpp ExactTest.cpp LocateCore.cpp Component.cp
 OBJS = $(SRCS:.cpp=.o)
 
 # Define the target executable
-TARGET = test
+TARGET = ExactTest
 
 # Default target
 all: $(TARGET)
 
-# Link the object files to create the executable (INCLUDE -mconsole AT THE END OF LINE 21)
+# Link the object files to create the executable
 $(TARGET): $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS)
 
@@ -29,4 +29,3 @@ clean:
 	rm -f $(OBJS) $(TARGET)
 
 .PHONY: all clean
-

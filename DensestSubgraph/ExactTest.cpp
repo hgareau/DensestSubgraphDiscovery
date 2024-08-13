@@ -37,7 +37,7 @@ public:
     static std::vector<DataReader> g_data;
     static std::vector<DataReader> m_data;
 
-    static int main(int argc, char* argv[]) {
+    int main(int argc, char* argv[]) {
         try {
             // For every graph in datasets_url, store its own DataReader.
             // Then call readGraph on that DataReader to store an adjacency list representing

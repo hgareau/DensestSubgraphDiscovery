@@ -5,64 +5,66 @@
 #include "KList.h"
 #include "KCore.h"
 
-    KList::KList(std::vector<std::vector<int>> graph, int k)
-    {
-        GenGraph = graph;
-        this->graph = std::move(graph);
-        this->k = k;
-        graph_size = static_cast<int>(this->graph.size());
-        order.resize(graph_size);
-        degree.resize(graph_size);
-        label.resize(graph_size, k);
-        motif_degree.resize(graph_size, 0);
-        Adjlist.resize(graph_size);
+int KList::graph_size = 0;
+
+KList::KList(std::vector<std::vector<int>> graph, int k)
+{
+    GenGraph = graph;
+    this->graph = std::move(graph);
+    this->k = k;
+    graph_size = static_cast<int>(this->graph.size());
+    order.resize(graph_size);
+    degree.resize(graph_size);
+    label.resize(graph_size, k);
+    motif_degree.resize(graph_size, 0);
+    Adjlist.resize(graph_size);
+}
+
+//sets up order[]
+void KList::getListingOrder()
+{
+    // KCore and decompose() gets an array of the k-core values for every vertex in the graph
+    // (This is not CDS decomp though, it's for edges not motifs)
+    std::vector<int> temp_arr = KCore(GenGraph).obtainReverseCoreArr();
+
+    // for every vertex in the graph
+    for (int i = 0; i < graph_size; ++i) {
+        // set this vertex's order to its core value + 1
+        order[temp_arr[i]] = i + 1;
     }
+}
 
-    //sets up order[]
-    void KList::getListingOrder()
-    {
-        // KCore and decompose() gets an array of the k-core values for every vertex in the graph
-        // (This is not CDS decomp though, it's for edges not motifs)
-        std::vector<int> temp_arr = KCore(GenGraph).obtainReverseCoreArr();
-
-        // for every vertex in the graph
-        for (int i = 0; i < graph_size; ++i) {
-            // set this vertex's order to its core value + 1
-            order[temp_arr[i]] = i + 1;
-        }
-    }
-
-    // This will set up graph[][] as a DAG
-    // A DAG is a directed graph with no loops
-    void KList::GenerateDAG()
-    {
-        // Need to create a new adjacency list such that no loops exist
-        // for every vertex in the graph, set up
-        for (int i = 0; i < graph_size; ++i) {
-            int count = 0; // reset count to = 0
-            // for every edge from i to j
-            for (int j = 0; j < GenGraph[i].size(); ++j) {
-                // if order of i is < the order of the vertex connected to i
-                if (order[i] < order[GenGraph[i][j]]) {
-                    count++; // increase count by 1
-                }
+// This will set up graph[][] as a DAG
+// A DAG is a directed graph with no loops
+void KList::GenerateDAG()
+{
+    // Need to create a new adjacency list such that no loops exist
+    // for every vertex in the graph, set up
+    for (int i = 0; i < graph_size; ++i) {
+        int count = 0; // reset count to = 0
+        // for every edge from i to j
+        for (int j = 0; j < GenGraph[i].size(); ++j) {
+            // if order of i is < the order of the vertex connected to i
+            if (order[i] < order[GenGraph[i][j]]) {
+                count++; // increase count by 1
             }
-            std::vector<int> arr(count); // set size of arr[] to count
-            degree[i] = count; // set the degree of vertex i to count
-            count = 0; // reset count to 0
-            // for every edge from i to j
-            for (int j = 0; j < GenGraph[i].size(); ++j) {
-                // if order of i is < the order of the vertex connected to i
-                if (order[i] < order[GenGraph[i][j]]) {
-                    // add the vertex connected to i to arr at current count position
-                    arr[count] = GenGraph[i][j];
-                    count++; // increase count by 1
-                }
-            }
-            // set list of vertices i points to as arr
-            graph[i] = arr;
         }
+        std::vector<int> arr(count); // set size of arr[] to count
+        degree[i] = count; // set the degree of vertex i to count
+        count = 0; // reset count to 0
+        // for every edge from i to j
+        for (int j = 0; j < GenGraph[i].size(); ++j) {
+            // if order of i is < the order of the vertex connected to i
+            if (order[i] < order[GenGraph[i][j]]) {
+                // add the vertex connected to i to arr at current count position
+                arr[count] = GenGraph[i][j];
+                count++; // increase count by 1
+            }
+        }
+        // set list of vertices i points to as arr
+        graph[i] = arr;
     }
+}
 
     //The only difference between this and Listing is the setup of Statistic,
     //which is a map of all the motifs
@@ -328,186 +330,186 @@
             }
     }
 
-    //map always = 0?
-    //This is another algorithm for finding the motif degrees of every vertex
-    //However, this is different as it is based around one node, map.
-    //What it changes I'm unsure of. I can understand the code, but I don't understand
-    //what it's doing really.
-    void KList::Listing(int k, std::vector<int> &c, std::vector<int> &arr, int map)
-    {
-        //if our motif is edge OR the motif size has been reduced to 2
-        if(k==2) {
-            bool onenode=false; //set this boolean as false
-            std::string a=""; //initialize this blank string
-            //for every element of c
-            for(int m=0;m<c.size();++m) {
-                //concatenate each element of c + a space inbetween them
-                a+=std::to_string(c[m])+" ";
-                //if element m of c = the value map
-                if(c[m]==map) {
-                    //set boolean to true
-                    onenode=true;
+//map always = 0?
+//This is another algorithm for finding the motif degrees of every vertex
+//However, this is different as it is based around one node, map.
+//What it changes I'm unsure of. I can understand the code, but I don't understand
+//what it's doing really.
+void KList::Listing(int k, std::vector<int> &c, std::vector<int> &arr, int map)
+{
+    //if our motif is edge OR the motif size has been reduced to 2
+    if(k==2) {
+        bool onenode=false; //set this boolean as false
+        std::string a=""; //initialize this blank string
+        //for every element of c
+        for(int m=0;m<c.size();++m) {
+            //concatenate each element of c + a space inbetween them
+            a+=std::to_string(c[m])+" ";
+            //if element m of c = the value map
+            if(c[m]==map) {
+                //set boolean to true
+                onenode=true;
+            }
+        }
+        int multi=0; //initialize multi as 0
+        //for every element of arr
+        for(int i=0;i<arr.size();++i) {
+            //set temp as vertex i in arr
+            int temp=arr[i];
+            //for every edge connected to temp
+            for(int j=0;j<degree[temp];++j) {
+                //if: the onenode boolean is true OR temp vertex is the same as map
+                //OR the vertex connected to temp by edge j is the same as map
+                if(onenode||temp==map||graph[temp][j]==map) {
+                    multi++; //increase multi by 1
+                    motif_num++; //increase number of motifs by 1
+                    //increase the motif degrees of vertex temp and the vertex
+                    //connected to it by edge j by 1
+                    motif_degree[graph[temp][j]]++;
+                    motif_degree[temp]++;
                 }
             }
-            int multi=0; //initialize multi as 0
-            //for every element of arr
-            for(int i=0;i<arr.size();++i) {
-                //set temp as vertex i in arr
-                int temp=arr[i];
-                //for every edge connected to temp
-                for(int j=0;j<degree[temp];++j) {
-                    //if: the onenode boolean is true OR temp vertex is the same as map
-                    //OR the vertex connected to temp by edge j is the same as map
-                    if(onenode||temp==map||graph[temp][j]==map) {
-                        multi++; //increase multi by 1
-                        motif_num++; //increase number of motifs by 1
-                        //increase the motif degrees of vertex temp and the vertex
-                        //connected to it by edge j by 1
-                        motif_degree[graph[temp][j]]++;
-                        motif_degree[temp]++;
-                    }
-                }
+        }
+        //for every element in c
+        for(int m=0;m<c.size();++m) {
+            int temp=c[m]; //set temp as the element at position m in c
+            motif_degree[temp]+=multi; //increase temp's motif degree by multi
+        }
+    } else {
+        //for every vertex in arr
+        for(int i=0;i<arr.size();++i) {
+            //set temp as vertex i in arr
+            int temp=arr[i];
+            //int count=0;
+            //initialize a new vector
+            std::vector<int> arr_n;
+            //for every edge of temp
+            for(int j=0;j<graph[temp].size();++j) {
+                //if the element at the position of the vertex connected to temp by this edge
+                //in label equals k
+                if(label[graph[temp][j]]==k) {
+                    label[graph[temp][j]]=k-1; //reduce it by 1
+                    //count++;
+                    //then add the connected vertex to arr_n
+                    arr_n.push_back(graph[temp][j]);
+                }                                               
             }
-            //for every element in c
-            for(int m=0;m<c.size();++m) {
-                int temp=c[m]; //set temp as the element at position m in c
-                motif_degree[temp]+=multi; //increase temp's motif degree by multi
-            }
-        } else {
-            //for every vertex in arr
-            for(int i=0;i<arr.size();++i) {
-                //set temp as vertex i in arr
-                int temp=arr[i];
+            //for every vertex in arr_n
+            for(int j=0;j<arr_n.size();++j) {
                 //int count=0;
-                //initialize a new vector
-                std::vector<int> arr_n;
-                //for every edge of temp
-                for(int j=0;j<graph[temp].size();++j) {
-                    //if the element at the position of the vertex connected to temp by this edge
-                    //in label equals k
-                    if(label[graph[temp][j]]==k) {
-                        label[graph[temp][j]]=k-1; //reduce it by 1
-                        //count++;
-                        //then add the connected vertex to arr_n
-                        arr_n.push_back(graph[temp][j]);
-                    }                                               
-                }
-                //for every vertex in arr_n
-                for(int j=0;j<arr_n.size();++j) {
-                    //int count=0;
-                    //get vertex j in arr_n
-                    int arr_temp=arr_n[j];
-                    int index=0; //set index to 0
-                    //while the number of edges of arr_temp - 1 is greater than index
-                    //REMINDER: graph is the DAG
-                    for(int m=graph[arr_temp].size()-1;m>index;--m) {
-                        //if the element at the position of the vertex connected to arr_temp by edge m
-                        //is equal to k - 1
-                        if(label[graph[arr_temp][m]]==k-1) {
-                            //while index is less than m AND
-                            //the element at the position of the vertex connected to arr_temp by edge index
-                            //is equal to k - 1, increase index by 1
-                            while(index<m&&label[graph[arr_temp][index]]==k-1) {
-                                index++;
-                            }
-                            //if the element at the position of the vertex connected to arr_temp by edge index
-                            //is NOT equal to k - 1
-                            if(label[graph[arr_temp][index]]!=k-1) {
-                                //set temp1 as the vertex connected to arr_temp by edge m
-                                int temp1=graph[arr_temp][m];
-                                //swap the vertices of the edges connecting arr_temp to m and index
-                                graph[arr_temp][m]=graph[arr_temp][index];
-                                graph[arr_temp][index]=temp1;
-                            }
+                //get vertex j in arr_n
+                int arr_temp=arr_n[j];
+                int index=0; //set index to 0
+                //while the number of edges of arr_temp - 1 is greater than index
+                //REMINDER: graph is the DAG
+                for(int m=graph[arr_temp].size()-1;m>index;--m) {
+                    //if the element at the position of the vertex connected to arr_temp by edge m
+                    //is equal to k - 1
+                    if(label[graph[arr_temp][m]]==k-1) {
+                        //while index is less than m AND
+                        //the element at the position of the vertex connected to arr_temp by edge index
+                        //is equal to k - 1, increase index by 1
+                        while(index<m&&label[graph[arr_temp][index]]==k-1) {
+                            index++;
+                        }
+                        //if the element at the position of the vertex connected to arr_temp by edge index
+                        //is NOT equal to k - 1
+                        if(label[graph[arr_temp][index]]!=k-1) {
+                            //set temp1 as the vertex connected to arr_temp by edge m
+                            int temp1=graph[arr_temp][m];
+                            //swap the vertices of the edges connecting arr_temp to m and index
+                            graph[arr_temp][m]=graph[arr_temp][index];
+                            graph[arr_temp][index]=temp1;
                         }
                     }
-                    //if the number of edges of arr_temp in the DAG does NOT equal 0
-                    //AND the label value at the position equal to the vertex connected to
-                    //arr_temp by index = k-1
-                    if(graph[arr_temp].size()!=0&&label[graph[arr_temp][index]]==k-1)
-                        index++; //increase index by 1
-                    degree[arr_temp]=index; //set the degree of arr_temp as index
                 }
-                //add vertex i in arr to c
-                c.push_back(arr[i]);
-                //recursive call with updated values
-                Listing(k-1,c,arr_n,map);
-                //remove vertex i from c
-                c.pop_back();
-                //for every vertex in arr_n
-                for(int j=0;j<arr_n.size();++j) {
-                    //set arr_temp as vertex j in arr_n
-                    int arr_temp=arr_n[j];
-                    label[arr_temp]=k; //set the label value of arr_temp as k
-                }
+                //if the number of edges of arr_temp in the DAG does NOT equal 0
+                //AND the label value at the position equal to the vertex connected to
+                //arr_temp by index = k-1
+                if(graph[arr_temp].size()!=0&&label[graph[arr_temp][index]]==k-1)
+                    index++; //increase index by 1
+                degree[arr_temp]=index; //set the degree of arr_temp as index
+            }
+            //add vertex i in arr to c
+            c.push_back(arr[i]);
+            //recursive call with updated values
+            Listing(k-1,c,arr_n,map);
+            //remove vertex i from c
+            c.pop_back();
+            //for every vertex in arr_n
+            for(int j=0;j<arr_n.size();++j) {
+                //set arr_temp as vertex j in arr_n
+                int arr_temp=arr_n[j];
+                label[arr_temp]=k; //set the label value of arr_temp as k
             }
         }
     }
+}
 
-    // finds the motif degrees of every vertex
-    void KList::ListFast()
-    {
-        // sets up order[] to be filled with the core value of every vertex + 1
-        getListingOrder();
-        // sets up graph as an adjacency list. A modified version of GenGraph (the original graph)
-        // such that no loops exist in it
-        GenerateDAG();
-        // generate new array lists c and arr
-        std::vector<int> c;
-        std::vector<int> arr;
-        // for every vertex in the graph, put its own vertex number in its slot
-        for (int i = 0; i < graph_size; ++i) {
-            arr.push_back(i);
-        }
-        // Modifies certain variables
-        Listing(k, c, arr);
+// finds the motif degrees of every vertex
+void KList::ListFast()
+{
+    // sets up order[] to be filled with the core value of every vertex + 1
+    getListingOrder();
+    // sets up graph as an adjacency list. A modified version of GenGraph (the original graph)
+    // such that no loops exist in it
+    GenerateDAG();
+    // generate new array lists c and arr
+    std::vector<int> c;
+    std::vector<int> arr;
+    // for every vertex in the graph, put its own vertex number in its slot
+    for (int i = 0; i < graph_size; ++i) {
+        arr.push_back(i);
     }
+    // Modifies certain variables
+    Listing(k, c, arr);
+}
 
-    // This method sets up then runs ListingRecord.
-    // This finds the number of motifs in the graph, the motif degree of every vertex, and the map Statistic
-    // of every vertex
-    void KList::ListRecord()
-    {
-        // sets up order[] to be filled with the core value of every vertex + 1
-        getListingOrder();
-        // sets up graph as an adjacency list. A modified version of GenGraph (the original graph)
-        // such that no loops exist in it
-        GenerateDAG();
-        // generate new array lists c and arr
-        std::vector<int> c;
-        std::vector<int> arr;
-        // for every vertex in the graph, put its own vertex number in its slot
-        for (int i = 0; i < graph_size; ++i) {
-            arr.push_back(i);
-        }
-        // Modifies certain variables
-        ListingRecord(k, c, arr);
+// This method sets up then runs ListingRecord.
+// This finds the number of motifs in the graph, the motif degree of every vertex, and the map Statistic
+// of every vertex
+void KList::ListRecord()
+{
+    // sets up order[] to be filled with the core value of every vertex + 1
+    getListingOrder();
+    // sets up graph as an adjacency list. A modified version of GenGraph (the original graph)
+    // such that no loops exist in it
+    GenerateDAG();
+    // generate new array lists c and arr
+    std::vector<int> c;
+    std::vector<int> arr;
+    // for every vertex in the graph, put its own vertex number in its slot
+    for (int i = 0; i < graph_size; ++i) {
+        arr.push_back(i);
     }
+    // Modifies certain variables
+    ListingRecord(k, c, arr);
+}
 
-    void KList::ListOne(int a)
-    {
-        // sets up order[] to be filled with the core value of every vertex + 1
-        getListingOrder();
-        // sets up graph as an adjacency list. A modified version of GenGraph (the original graph)
-        // such that no loops exist in it
-        GenerateDAG();
-        // generate new array lists c and arr
-        std::vector<int> c;
-        std::vector<int> arr;
-        // for every vertex in the graph, put its own vertex number in its slot
-        for (int i = 0; i < graph_size; ++i) {
-            arr.push_back(i);
-        }
-        // Modifies certain variables
-        Listing(k, c, arr, a);
+void KList::ListOne(int a)
+{
+    // sets up order[] to be filled with the core value of every vertex + 1
+    getListingOrder();
+    // sets up graph as an adjacency list. A modified version of GenGraph (the original graph)
+    // such that no loops exist in it
+    GenerateDAG();
+    // generate new array lists c and arr
+    std::vector<int> c;
+    std::vector<int> arr;
+    // for every vertex in the graph, put its own vertex number in its slot
+    for (int i = 0; i < graph_size; ++i) {
+        arr.push_back(i);
     }
+    // Modifies certain variables
+    Listing(k, c, arr, a);
+}
 
-    int KList::getMotifNum()
-    {
-        return motif_num;
-    }
+int KList::getMotifNum()
+{
+    return motif_num;
+}
 
-    std::vector<long> KList::getMotifDegree()
-    {
-        return motif_degree;
-    }
+std::vector<long> KList::getMotifDegree()
+{
+    return motif_degree;
+}
