@@ -37,13 +37,13 @@ public:
     static std::vector<DataReader> g_data;
     static std::vector<DataReader> m_data;
 
-    int main(int argc, char* argv[]) {
+    int run() {
         try {
             // For every graph in datasets_url, store its own DataReader.
             // Then call readGraph on that DataReader to store an adjacency list representing
             // the graph in its spot
             for (const auto& dataset : datasets_url) {
-                g_data.emplace_back(DataReader(dataset_doc + dataset + ".txt", nullptr));
+                g_data.emplace_back(DataReader(dataset_doc + dataset + ".txt", "holder"));
                 g_data.back().readGraph();
             }
 
@@ -51,11 +51,11 @@ public:
             // Then call readMotif on that DataReader to store an adjacency matric representing
             // the motif in its spot
             for (const auto& motif : motif_url) {
-                m_data.emplace_back(DataReader(nullptr, motif_doc + motif + ".txt"));
+                m_data.emplace_back(DataReader("holder", motif_doc + motif + ".txt"));
                 m_data.back().readMotif();
             }
 
-            DataReader a(nullptr, nullptr);
+            DataReader a("holder", "holder");
             std::time_t now = std::time(nullptr);
             std::cout << std::put_time(std::localtime(&now), "%d-%b-%Y %H:%M:%S") << " " << datasets_url[0] << std::endl;
 
@@ -67,8 +67,8 @@ public:
             // They are run in a for loop that goes specifically from CoreExact to Exact.
 
             // Assuming the necessary data structures are already set up
-            std::vector<DataReader> g_data = { /* ... */ };
-            std::vector<DataReader> m_data = { /* ... */ };
+            //std::vector<DataReader> g_data = { /* ... */ };
+            //std::vector<DataReader> m_data = { /* ... */ };
             a = DataReader(0, 0);
 
             // Set up the info in 'a'
@@ -128,3 +128,8 @@ std::vector<std::string> ExactTest::datasets_url = { "graph" };
 std::vector<std::string> ExactTest::motif_url = { "edge" };
 std::vector<DataReader> ExactTest::g_data;
 std::vector<DataReader> ExactTest::m_data;
+
+int main() {
+    ExactTest test;
+    return test.run();
+}
