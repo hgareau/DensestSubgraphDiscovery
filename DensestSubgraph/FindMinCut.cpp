@@ -5,13 +5,15 @@
 #include <vector>
 #include "FindMinCut.h"
 
+using namespace std;
+
 /**
 * Constructor
 * @param FlowNetwork data structure used to record flow network
 * @param s source vertex
 * @param t sink vertex
 */
-FindMinCut::FindMinCut(std::vector<std::unordered_map<int, std::vector<double>>> FlowNetwork, int s, int t)
+FindMinCut::FindMinCut(vector<unordered_map<int, vector<double>>> FlowNetwork, int s, int t)
 {
     this->FlowNetwork = FlowNetwork;
     this->s = s;
@@ -28,13 +30,14 @@ FindMinCut::FindMinCut(std::vector<std::unordered_map<int, std::vector<double>>>
 double FindMinCut::EdmondsKarp()
 {
     // sets parent as a vector the size of the Flow Network
-    parent = std::vector<int>(FlowNetwork.size(), -1);
+    parent = vector<int>(FlowNetwork.size(), 0);
         
     // find the max flow along the shortest path in the graph
-    double result = augmentPath(parent);
+    double result = augmentPath();
     double sum = 0;
-    std::vector<double> temp;
-        
+    vector<double> temp;
+    int counter = 0;
+
     // while result does NOT equal -1 (aka there are still paths remaining)
     while (result != -1) {
         int cur = t; // set cur (current vertex) as t
@@ -44,20 +47,24 @@ double FindMinCut::EdmondsKarp()
             // set temp as the flow/capacity of the edge from cur's parent to cur
             temp = FlowNetwork[parent[cur]][cur];
             // set flow of the edge as its flow - max flow along path
-            temp[0] = temp[0] - result;
+            FlowNetwork[parent[cur]][cur][0] = temp[0] - result;
             // set temp as the flow/capacity of the edge from cur to cur's parent
             temp = FlowNetwork[cur][parent[cur]];
             // set the flow of edge as its flow + max flow along the path
-            temp[0] = temp[0] + result;
+            FlowNetwork[cur][parent[cur]][0] = temp[0] + result;
             // set cur as its parent
             cur = parent[cur];
         }
             
         // add the max flow along the path to sum (which will be max flow in the graph)
         sum += result;
-            
+
+        if (counter >= 4597) {
+            int dummy5 = 0;
+        }
         // find the max flow along the next shortest path in the graph
-        result = augmentPath(parent);
+        result = augmentPath();
+        counter++;
     }
         
     // returns the maximum flow of the graph
@@ -71,7 +78,7 @@ double FindMinCut::EdmondsKarp()
 */
 //Note: This does two things. Augments parent to be the next shortest traversable
 //path from s to t AND returns the max flow that can be sent along this path.
-double FindMinCut::augmentPath(std::vector<int> &parent)
+double FindMinCut::augmentPath()
 {
     // sets max flow as the maximum possible int value so it can be easily reset
     double maxflow = INT_MAX;
@@ -80,16 +87,17 @@ double FindMinCut::augmentPath(std::vector<int> &parent)
     fill(parent.begin(), parent.end(), -1);
         
     // create a queue of integers and add source to it
-    std::queue<int> q;
+    queue<int> q;
     q.push(s);
         
     // put source in the position equal to its id in parent
     parent[s] = s;
-    std::vector<double> temp;
+    vector<double> temp;
         
     //This while loop does the BFS until it reaches sink, signaling a finished path
 	//Then it sets up this path and the max flow along it
 	//while the queue is NOT empty
+    int dummy = 1;
     while (!q.empty()) {
         // set p as the current vertex
         int p = q.front();
@@ -109,9 +117,11 @@ double FindMinCut::augmentPath(std::vector<int> &parent)
             }
             break; // exit the loop for "while queue is empty"
         }
-            
+           
+        int dummy3 = 1;
+
         // for every vertex connected to p
-        for (auto& entry : FlowNetwork[p]) {
+        for (auto &entry : FlowNetwork[p]) {
             temp = entry.second; // set temp as the key-value pair of this vertex
             // if the vertex (entry's key) has no parent AND capacity (or flow?) > 0
             if (parent[entry.first] == -1 && temp[0] > 0) {
@@ -133,7 +143,7 @@ double FindMinCut::augmentPath(std::vector<int> &parent)
     return maxflow;
 }
 
-std::vector<int> FindMinCut::getparent()
+vector<int> FindMinCut::getparent()
 {
     return parent;
 }

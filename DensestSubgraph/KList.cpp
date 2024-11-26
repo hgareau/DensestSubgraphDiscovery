@@ -5,19 +5,18 @@
 #include "KList.h"
 #include "KCore.h"
 
-int KList::graph_size = 0;
+using namespace std;
 
-KList::KList(std::vector<std::vector<int>> graph, int k)
+KList::KList(vector<vector<int>> graph, int k)
 {
-    GenGraph = graph;
-    this->graph = std::move(graph);
+    this->GenGraph = graph;
     this->k = k;
-    graph_size = static_cast<int>(this->graph.size());
+    graph_size = graph.size();
+    this->graph.resize(graph_size);
     order.resize(graph_size);
     degree.resize(graph_size);
     label.resize(graph_size, k);
     motif_degree.resize(graph_size, 0);
-    Adjlist.resize(graph_size);
 }
 
 //sets up order[]
@@ -25,7 +24,9 @@ void KList::getListingOrder()
 {
     // KCore and decompose() gets an array of the k-core values for every vertex in the graph
     // (This is not CDS decomp though, it's for edges not motifs)
-    std::vector<int> temp_arr = KCore(GenGraph).obtainReverseCoreArr();
+    KCore b(GenGraph);
+    b.decompose();
+    vector<int> temp_arr = b.obtainReverseCoreArr();
 
     // for every vertex in the graph
     for (int i = 0; i < graph_size; ++i) {
@@ -49,7 +50,7 @@ void KList::GenerateDAG()
                 count++; // increase count by 1
             }
         }
-        std::vector<int> arr(count); // set size of arr[] to count
+        vector<int> arr(count); // set size of arr[] to count
         degree[i] = count; // set the degree of vertex i to count
         count = 0; // reset count to 0
         // for every edge from i to j
@@ -68,16 +69,15 @@ void KList::GenerateDAG()
 
     //The only difference between this and Listing is the setup of Statistic,
     //which is a map of all the motifs
-    void KList::ListingRecord(int k, std::vector<int> c, std::vector<int> arr)
+    void KList::ListingRecord(int k, vector<int> c, vector<int> arr)
     {
         //if our motif is edge OR the motif size has been reduced to 2
             if(k==2) {
-//                  cout<<">>>"<<endl;
-                    std::string a=""; //initialize blank string
+                    string a=""; //initialize blank string
                     //for every element of c
                     for(int m=0;m<c.size();++m) {
                             //concatenate each element of c + a space inbetween them
-                            a+=std::to_string(c[m])+" ";
+                            a+=to_string(c[m])+" ";
                     }
                     int multi=0; //initialize multi as 0
                     //for every vertex in arr
@@ -85,16 +85,15 @@ void KList::GenerateDAG()
                             int temp=arr[i]; //get the vertex as temp
                             //for every vertex connected to temp in the DAG
                             for(int j=0;j<degree[temp];++j) {
-//                                  cout<<a+to_string(temp)+" "+to_string(graph[temp][j])<<endl;
                                     //concatenate vertex temp and the vertex connected to it in the DAG to a
-                                    a=a+std::to_string(temp)+" "+std::to_string(graph[temp][j]);
+                                    a=a+to_string(temp)+" "+to_string(graph[temp][j]);
                                     multi++; //increase multi by 1
                                     motif_num++; //increase the number of motifs by 1
                                     motif_degree[graph[temp][j]]++; //increase the motif degree of the vertex
                                                                     //connected to temp in the DAG by 1
                                     motif_degree[temp]++; //increase the motif degree of temp by 1
                                     //initialize temp_arr as size of the motif + 1 (?)
-                                    std::vector<int> temp_arr(this->k+1);
+                                    vector<int> temp_arr(this->k+1);
                                     //add every element of c to temp_arr
                                     for(int m=0;m<c.size();++m) {
                                             temp_arr[m]=c[m];
@@ -104,7 +103,6 @@ void KList::GenerateDAG()
                                     temp_arr[this->k-2]=temp;
                                     temp_arr[this->k-1]=graph[temp][j];
                                     temp_arr[this->k]=1;
-                                    //cout<<temp_arr[k]<<" "<<k<<endl;
                                     //add the current string a paired with this temp_arr to Statistic
                                     this->Statistic[a] = temp_arr;
                             }
@@ -114,7 +112,7 @@ void KList::GenerateDAG()
                             int temp=c[m]; //set temp as the element at position m in c
                             motif_degree[temp]+=multi; //add multi to the motif degree of temp
                     }
-                    
+                    int x = 10;
             }else {
                     //for every element in arr (every vertex in the DAG)
                     for(int i=0;i<arr.size();++i) {
@@ -127,10 +125,9 @@ void KList::GenerateDAG()
                              */
 
                             //initialize empty ArrayList arr_n
-                            std::vector<int> arr_n;
+                            vector<int> arr_n;
                             //for every edge connected to temp
                             for(int j=0;j<graph[temp].size();++j) {
-                                    //cout<<"****"<<graph[temp][j]<<" "<<" "<<label[graph[temp][j]]<<" "<<k<<endl;
                                     //if the element at the position of the vertex connected to temp by this edge
                                     //in label equals k
                                     if(label[graph[temp][j]]==k) {
@@ -143,8 +140,6 @@ void KList::GenerateDAG()
                             }
 
                             /*
-                             * This for loop is a bit more complex, but while I don't understand the intracasies
-                             * of it, I can tell its general purpose.
                              * This loop, for every vertex connected to temp (with the correct "current" motif size)
                              * sets the vertex's regular degree, that is to say, its "edge" degree. How many vertices
                              * it is connected to.
@@ -219,17 +214,17 @@ void KList::GenerateDAG()
 
     //This is a recursive function that finds the number of motifs in the graph and the motif degree
     //of every vertex
-    void KList::Listing(int k, std::vector<int> c, std::vector<int> arr)
+    void KList::Listing(int k, vector<int> c, vector<int> arr)
     {
         //if our motif is edge OR the motif size has been reduced to 2
             if(k==2) {
                     
-                    std::string a=""; //initialize blank string
+                    string a=""; //initialize blank string
 
                     //for every element of c
                     for(int m=0;m<c.size();++m) {
                             //concatenate each element of c + a space inbetween them
-                            a+=std::to_string(c[m])+" ";
+                            a+=to_string(c[m])+" ";
                     }
                     int multi=0; //initialize multi as 0
                     //for every vertex in arr
@@ -237,7 +232,6 @@ void KList::GenerateDAG()
                             int temp=arr[i]; //get the vertex as temp
                             //for every vertex connected to temp in the DAG
                             for(int j=0;j<degree[temp];++j) {
-//                                  cout<<a+to_string(temp)+" "+to_string(graph[temp][j])<<endl;
                                     multi++; //increase multi by 1
                                     motif_num++; //increase motif_num by 1
                                     motif_degree[graph[temp][j]]++; //increase the motif degree of the vertex
@@ -248,7 +242,6 @@ void KList::GenerateDAG()
                     //for every element of c
                     for(int m=0;m<c.size();++m) {
                             int temp=c[m]; //set temp as the element at position m in c
-//                          cout<<c[m]<<"####"<<endl;
                             motif_degree[temp]+=multi; //add multi to the motif degree of temp
                     }
                     
@@ -260,16 +253,14 @@ void KList::GenerateDAG()
                             //int count=0;
                             
                             //initialize new Array List arr_n
-                            std::vector<int> arr_n;
+                            vector<int> arr_n;
                             //for every edge of temp in the DAG
                             for(int j=0;j<graph[temp].size();++j) {
-                                    //cout<<"****"<<graph[temp][j]<<" "<<" "<<label[graph[temp][j]]<<" "<<k<<endl;
                                     //if the element at the position of the vertex connected to temp by this edge
                                     //in label equals k
                                     if(label[graph[temp][j]]==k) {
                                             label[graph[temp][j]]=k-1; //reduce it by 1
                                             
-                                            //count++;
                                             //then add the connected vertex to arr_n
                                             arr_n.push_back(graph[temp][j]);
                                     }                                               
@@ -330,21 +321,19 @@ void KList::GenerateDAG()
             }
     }
 
-//map always = 0?
+//map always = 0
 //This is another algorithm for finding the motif degrees of every vertex
 //However, this is different as it is based around one node, map.
-//What it changes I'm unsure of. I can understand the code, but I don't understand
-//what it's doing really.
-void KList::Listing(int k, std::vector<int> &c, std::vector<int> &arr, int map)
+void KList::Listing(int k, vector<int> &c, vector<int> &arr, int map)
 {
     //if our motif is edge OR the motif size has been reduced to 2
     if(k==2) {
         bool onenode=false; //set this boolean as false
-        std::string a=""; //initialize this blank string
+        string a=""; //initialize this blank string
         //for every element of c
         for(int m=0;m<c.size();++m) {
             //concatenate each element of c + a space inbetween them
-            a+=std::to_string(c[m])+" ";
+            a+=to_string(c[m])+" ";
             //if element m of c = the value map
             if(c[m]==map) {
                 //set boolean to true
@@ -382,14 +371,13 @@ void KList::Listing(int k, std::vector<int> &c, std::vector<int> &arr, int map)
             int temp=arr[i];
             //int count=0;
             //initialize a new vector
-            std::vector<int> arr_n;
+            vector<int> arr_n;
             //for every edge of temp
             for(int j=0;j<graph[temp].size();++j) {
                 //if the element at the position of the vertex connected to temp by this edge
                 //in label equals k
                 if(label[graph[temp][j]]==k) {
                     label[graph[temp][j]]=k-1; //reduce it by 1
-                    //count++;
                     //then add the connected vertex to arr_n
                     arr_n.push_back(graph[temp][j]);
                 }                                               
@@ -455,8 +443,8 @@ void KList::ListFast()
     // such that no loops exist in it
     GenerateDAG();
     // generate new array lists c and arr
-    std::vector<int> c;
-    std::vector<int> arr;
+    vector<int> c;
+    vector<int> arr;
     // for every vertex in the graph, put its own vertex number in its slot
     for (int i = 0; i < graph_size; ++i) {
         arr.push_back(i);
@@ -476,8 +464,8 @@ void KList::ListRecord()
     // such that no loops exist in it
     GenerateDAG();
     // generate new array lists c and arr
-    std::vector<int> c;
-    std::vector<int> arr;
+    vector<int> c;
+    vector<int> arr;
     // for every vertex in the graph, put its own vertex number in its slot
     for (int i = 0; i < graph_size; ++i) {
         arr.push_back(i);
@@ -494,8 +482,8 @@ void KList::ListOne(int a)
     // such that no loops exist in it
     GenerateDAG();
     // generate new array lists c and arr
-    std::vector<int> c;
-    std::vector<int> arr;
+    vector<int> c;
+    vector<int> arr;
     // for every vertex in the graph, put its own vertex number in its slot
     for (int i = 0; i < graph_size; ++i) {
         arr.push_back(i);
@@ -509,7 +497,7 @@ int KList::getMotifNum()
     return motif_num;
 }
 
-std::vector<long> KList::getMotifDegree()
+vector<long> KList::getMotifDegree()
 {
     return motif_degree;
 }

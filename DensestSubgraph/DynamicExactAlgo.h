@@ -3,16 +3,18 @@
 #include "Component.h"
 #include "DensestCore.h"
 
+using namespace std;
+
 #ifndef DYNAMICEXACT_H
 #define DYNAMICEXACT_H
 
 class DynamicExactAlgo {
 public:
-    std::queue<Component> queue;
+    queue<Component> compQueue;
     DensestCore Core;
     int motif_size;
 
-    DynamicExactAlgo(std::queue<Component> queue, DensestCore Core, int motif_size);
+    DynamicExactAlgo(queue<Component> queue, DensestCore Core, int motif_size);
     MDS DynamicExact();
 };
 #endif

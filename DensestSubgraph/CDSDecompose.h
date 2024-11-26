@@ -1,23 +1,26 @@
 #include <vector>
 #include <unordered_map>
 
+using namespace std;
+
 #ifndef CDSDECOMPOSE_H
 #define CDSDECOMPOSE_H
 
 class CDSDecompose {
 public:
-    std::vector<std::vector<int>> Graph;
-    std::vector<std::vector<int>> Motif;
+    vector<vector<int>> Graph;
+    vector<vector<int>> Motif;
     int graph_size;
     int motif_size;
-    std::vector<long long> degree;
-    std::vector<std::unordered_map<int, int>> Share;
+    vector<long long> degree;
+    vector<unordered_map<int, int>> Share;
     int motif_type;
-    std::unordered_map<std::string, std::vector<int>> motif_list;
-    std::vector<long long> motif_degree;
+    unordered_map<string, vector<int>> motif_list;
+    vector<long> motif_degree;
 
-    CDSDecompose(std::vector<std::vector<int>> Graph, std::vector<std::vector<int>> Motif, int graph_size, int motif_size, int motif_type);
-    std::vector<std::vector<double>> Decompose();
-    std::unordered_map<int, long> Generate(int index, std::vector<int>& mark, std::vector<int>& array, std::vector<int>& map_s);
+    CDSDecompose(vector<vector<int>>& Graph, vector<vector<int>>& Motif, int graph_size, int motif_size, int motif_type,
+        unordered_map<string, vector<int>>& motif_list, vector<long> motif_degree);
+    vector<vector<double>> Decompose();
+    unordered_map<int, long> Generate(int index, vector<int>& mark, vector<int>& array, vector<int>& map_s);
 };
 #endif

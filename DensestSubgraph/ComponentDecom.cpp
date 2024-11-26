@@ -6,19 +6,21 @@
 #include "Component.h"
 #include <queue>
 #include "ComponentDecom.h"
+#include <iostream>
 
-ComponentDecom::ComponentDecom(std::vector<std::vector<int>> &Graph, int graph_size, std::unordered_map<std::string, std::vector<int>> &motif_list)
+using namespace std;
+
+ComponentDecom::ComponentDecom(vector<vector<int>> &Graph, int graph_size, unordered_map<string, vector<int>> &motif_list)
 {
     this->Graph = Graph;
     this->graph_size = graph_size;
     this->motif_list = motif_list;
-    // this->core = core;
 }
 
-std::queue<Component> ComponentDecom::decompose()
+queue<Component> ComponentDecom::decompose()
 {
     // creates array delete[] of equal size to the graph and fills it with 0s
-    std::vector<int> delete_arr(graph_size, 0);
+    vector<int> delete_arr(graph_size, 0);
 
     int index = 0;
     // index is the number of connected components
@@ -32,18 +34,18 @@ std::queue<Component> ComponentDecom::decompose()
         }
     }
 
-    std::queue<Component> result;
+    queue<Component> result;
 
     // Index == 1 only occurs if every vertex is connected(?)
     if (index == 1) {
         long motif_num = 0;
         // creates array of size equal to graph to store the motif degree of every vertex
-        std::vector<int> motif_degree(graph_size, 0);
+        vector<int> motif_degree(graph_size, 0);
         int motif_size = 1;
         // Then for every motif in the graph (the DAG I should say)
         for (const auto& entry : motif_list) {
             // temp is set as the motif (contains all the vertices in the motif)
-            const std::vector<int>& temp = entry.second;
+            const vector<int>& temp = entry.second;
             // For every vertex in the motif (except the final "1")
             for (int i = 0; i < temp.size() - 1; ++i) {
                 // increaase the motif degree of vertex i in the motif
@@ -59,16 +61,17 @@ std::queue<Component> ComponentDecom::decompose()
         Component c(Graph, graph_size, motif_list, motif_num, static_cast<double>(motif_num) / graph_size, motif_degree);
         result.push(c);
     } else {
-        std::vector<std::unordered_map<std::string, std::vector<int>>> map_array(index + 1);
+        vector<unordered_map<string, vector<int>>> map_array(index + 1);
+
         // for every connected component
         for (int i = 1; i < index + 1; ++i) {
             // create an empty hash map for the component
-            map_array[i] = std::unordered_map<std::string, std::vector<int>>();
+            map_array[i] = unordered_map<string, vector<int>>();
         }
 
         // Creates arrays and fills them with 0s
-        std::vector<int> New_graph_size(index + 1, 0);
-        std::vector<int> Map_node(graph_size, 0);
+        vector<int> New_graph_size(index + 1, 0);
+        vector<int> Map_node(graph_size, 0);
 
         // for every vertex in this subgraph
         for (int i = 0; i < graph_size; ++i) {
@@ -78,37 +81,45 @@ std::queue<Component> ComponentDecom::decompose()
             New_graph_size[delete_arr[i]]++;
         }
 
-        // for every motif in the subgraph
         for (const auto& entry : motif_list) {
             // set temp as the first vertex of this motif
             int temp = entry.second[0];
+            // set array as the motif vertices
+            vector<int> array = entry.second;
+            // Not sure what this for loop is for since array[] is never used
+            for (size_t i = 0; i < array.size() - 1; ++i) {
+                array[i] = Map_node[array[i]];
+            }
+            motif_list[entry.first] = array;
             // puts this motif in the map for the connected component containing temp
             map_array[delete_arr[temp]].emplace(entry.first, entry.second);
         }
 
         // creates an amount of array arrays equal to the amount of connected components
-        std::vector<std::vector<std::vector<int>>> C_Graph(index + 1);
+        vector<vector<vector<int>>> C_Graph(index + 1);
         // for every connected component (+1?)
         for (int i = 1; i < index + 1; ++i) {
-            std::vector<std::vector<int>> temp(New_graph_size[i]);
+            vector<vector<int>> temp(New_graph_size[i]);
             C_Graph[i] = temp;
         }
         int motif_size = 1;
-        // for every connected component (+1?)
+
+        // for every connected component
         for (int i = 1; i < index + 1; ++i) {
             long motif_num = 0;
             // create empty array for the motif degrees of every vertex in the component
-            std::vector<int> motif_degree(New_graph_size[i], 0);
+            vector<int> motif_degree(New_graph_size[i], 0);
             // for every motif in this component
             for (const auto& entry : map_array[i]) {
                 motif_num += entry.second[entry.second.size() - 1];
                 motif_size = entry.second.size() - 1;
                 // gets the array of vertices in the motif and sets it as temp
-                const std::vector<int>& temp = entry.second;
+                const vector<int>& temp = entry.second;
                 // for every vertex in the motif
-                for (int j = 0; j < temp.size() - 1; ++j)
-                    // increase the motif degree by 1(?)
+                for (int j = 0; j < temp.size() - 1; ++j) {
+                    // increase the motif degree by 1
                     motif_degree[temp[j]] += temp[temp.size() - 1];
+                }
                 }
                 Component c = Component(C_Graph[i], New_graph_size[i],
 	                map_array[i], motif_num, (double)motif_num / (New_graph_size[i] * 1.0), motif_degree);
@@ -118,10 +129,10 @@ std::queue<Component> ComponentDecom::decompose()
     return result;
 }
 
-void ComponentDecom::BFS(std::vector<int> &delete_values, int s, int index)
+void ComponentDecom::BFS(vector<int> &delete_values, int s, int index)
 {
     //creates a queue
-    std::queue<int> queue;
+    queue<int> queue;
     //adds vertex s to that queue
     queue.push(s);
     //while the queue is not empty

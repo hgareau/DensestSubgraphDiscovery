@@ -4,7 +4,9 @@
 #include "DensestCore.h"
 #include "LocateCore.h"
 
-LocateCore::LocateCore(std::vector<std::vector<int>> Graph, std::vector<std::vector<double>> core, int graph_size)
+using namespace std;
+
+LocateCore::LocateCore(vector<vector<int>> Graph, vector<vector<double>> core, int graph_size)
 {
     this->Graph = Graph;
     this->core = core;
@@ -34,7 +36,7 @@ DensestCore LocateCore::locate()
     // vertex index for lowest to highest
     int index = 1;
     // empty array to be filled with vertices to be deleted, then fills with 0
-    std::vector<int> delete_vec(graph_size, 0);
+    vector<int> delete_vec(graph_size, 0);
     // sets vertices that should be deleted as -1 until the vertices have a motif degree
     // greater than the lower bound
     // this means all vertices that are not in the chosen k-core shall be removed in our
@@ -55,12 +57,12 @@ DensestCore LocateCore::locate()
     }
 
     // new_core will be an array of arrays
-    std::vector<std::vector<double>> new_core(temp, std::vector<double>(2));
+    vector<vector<double>> new_core(temp, vector<double>(2));
 
     // size of the new subgraph
     int New_graph_size = temp;
     // initializes empty adjacency list for the subgraph
-    std::vector<std::vector<int>> New_Graph(New_graph_size);
+    vector<vector<int>> New_Graph(New_graph_size);
     temp = 0; // resets temp to 0
 
     // This for loop fills the new_core array with info on every vertex, being whether
@@ -83,28 +85,30 @@ DensestCore LocateCore::locate()
         if (delete_vec[i] != -1) {
             int count = 0; // set count to 0
             // create empty array as the size of all of i's edges
-            std::vector<int> array;
+            vector<int> array(Graph[i].size());
             // for every edge of vertex i
-            for (int j = 0; j < sizeof(Graph[i]); ++j) {
+            for (int j = 0; j < Graph[i].size(); ++j) {
                 // if the vertex connected to i by this edge was not deleted
                 if (delete_vec[Graph[i][j]] != -1) {
-                    // add that vertex's delete "rank"(?) to the array at position count
-                    array.push_back(delete_vec[Graph[i][j]]);
+                    // add that vertex's delete "rank" to the array at position count
+                    array[count] = delete_vec[Graph[i][j]];
                     count++; // increase count by 1
                 }
             }
             // at vertex's delete "rank", set size of its array as the size of all vertices still
             // connect to it
-            New_Graph[delete_vec[i]] = std::move(array);
+            vector<int> placer(count);
+            New_Graph[delete_vec[i]] = placer;
+
+            for (int j = 0; j < count; ++j) {
+                //add the vertex to the edge
+                New_Graph[delete_vec[i]][j] = array[j];
+            }
         }
     }
 
     int delete_motif = static_cast<int>(core[0][3] - core[index - 1][3]);
 
     // result is set as a DensestCore (k-core of highest density)
-    //Some weird error here. Claims it doesn't match the constructor, but as far as I can tell these variables should
-    //match (even after casting the 2nd to last variable to a "double")
-    //DensestCore(std::vector<std::vector<int>> Graph, int graph_size, int kcore,
-    //int delete_vertex, int delete_motif, double densest, int kmax);
     return DensestCore(New_Graph, New_graph_size, low_bound, index - 1, delete_motif, static_cast<double>(core[index - 1][2]), static_cast<int>(kmax));
 }

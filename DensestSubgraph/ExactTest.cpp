@@ -6,6 +6,8 @@
 #include <iomanip>
 #include <map>
 
+#include <fstream>
+
 #include "Component.h"
 #include "ComponentDecom.h"
 #include "DensestCore.h"
@@ -16,6 +18,8 @@
 #include "MDS.h"
 #include "KList.h"
 #include "DynamicExactAlgo.h"
+
+using namespace std;
 
 /*
  * This class tests the Exact and CoreExact algorithms on the inputted dataset(s) with chosen motif(s)
@@ -29,13 +33,13 @@
  */
 class ExactTest {
 public:
-    static std::string dataset_doc;
-    static std::string motif_doc;
-    static std::vector<std::string> datasets_url;
-    static std::vector<std::string> motif_url;
+    static string dataset_doc;
+    static string motif_doc;
+    static vector<string> datasets_url;
+    static vector<string> motif_url;
 
-    static std::vector<DataReader> g_data;
-    static std::vector<DataReader> m_data;
+    static vector<DataReader> g_data;
+    static vector<DataReader> m_data;
 
     int run() {
         try {
@@ -55,21 +59,15 @@ public:
                 m_data.back().readMotif();
             }
 
-            DataReader a("holder", "holder");
-            std::time_t now = std::time(nullptr);
-            std::cout << std::put_time(std::localtime(&now), "%d-%b-%Y %H:%M:%S") << " " << datasets_url[0] << std::endl;
+            time_t now = time(nullptr);
 
-            now = std::time(nullptr);
-            std::cout << std::put_time(std::localtime(&now), "%d-%b-%Y %H:%M:%S") << " " << datasets_url[0] << std::endl;
+            now = time(nullptr);
 
             // Here is where CoreExact and Exact are set up and run.
             // They are run for every chosen motif.
             // They are run in a for loop that goes specifically from CoreExact to Exact.
 
-            // Assuming the necessary data structures are already set up
-            //std::vector<DataReader> g_data = { /* ... */ };
-            //std::vector<DataReader> m_data = { /* ... */ };
-            a = DataReader(0, 0);
+            DataReader a = DataReader("holder", "holder");
 
             // Set up the info in 'a'
             a.Graph = g_data[0].Graph;
@@ -78,8 +76,8 @@ public:
             a.Motif_Count = m_data[0].Motif_Count;
             a.Motif_Type = m_data[0].Motif_Type;
 
-            std::vector<std::vector<int>> Graph = a.Graph;
-            std::vector<std::vector<int>> Motif = a.Motif;
+            vector<vector<int>> Graph = a.Graph;
+            vector<vector<int>> Motif = a.Motif;
 
             // Calculate the number of edges
             int counta = 0;
@@ -87,9 +85,11 @@ public:
                 counta += Graph[yui].size();
             }
 
+            unordered_map<string, vector<int>> dummyList;
+            vector<long> dummyVector;
             // Perform the CDS decomposition
-            CDSDecompose c(Graph, Motif, a.getGraph_Size(), Motif[0].size(), a.getMotif_Count());
-            std::vector<std::vector<double>> r_d = c.Decompose();
+            CDSDecompose c(Graph, Motif, a.getGraph_Size(), Motif[0].size(), a.getMotif_Count(), dummyList, dummyVector);
+            vector<vector<double>> r_d = c.Decompose();
 
             // Locate the densest k-core
             LocateCore d(Graph, r_d, a.getGraph_Size());
@@ -101,33 +101,37 @@ public:
 
             // Perform the component decomposition
             ComponentDecom f(r_c.Graph, r_c.graph_size, b.Statistic);
-            std::queue<Component> r_q = f.decompose();
+            queue<Component> r_q = f.decompose();
+
+
+            DensestCore my(r_c.Graph, r_c.graph_size, 0, 0, 0, 0, r_c.graph_size);
 
             // Run the CoreExact algorithm
-            DynamicExactAlgo g(r_q, r_c, Motif[0].size());
+            DynamicExactAlgo g(r_q, my, Motif[0].size());
+
             MDS mds = g.DynamicExact();
 
-            //This has to do with Printing in C++
             // Print the results
-            std::cout << "density: " << mds.densest << std::endl;
-            std::cout << "Num of Cliques/edges: " << mds.motif_num << std::endl;
-            std::cout << "Num of Vertices: " << mds.vertex_num << std::endl;
+            cout << "density: " << mds.densest << endl;
+            cout << "Num of Cliques/edges: " << mds.motif_num << endl;
+            cout << "Num of Vertices: " << mds.vertex_num << endl;
 
             return 0;
 
-        } catch (const std::exception& e) {
-            std::cerr << "Error: " << e.what() << std::endl;
+        } catch (const exception& e) {
+            cerr << "Error: " << e.what() << endl;
             return 1;
         }
     }
 };
 
-std::string ExactTest::dataset_doc = "./datasets/";
-std::string ExactTest::motif_doc = "./motif/";
-std::vector<std::string> ExactTest::datasets_url = { "graph" };
-std::vector<std::string> ExactTest::motif_url = { "edge" };
-std::vector<DataReader> ExactTest::g_data;
-std::vector<DataReader> ExactTest::m_data;
+//Variables to access data sets
+string ExactTest::dataset_doc = "C:/Users/hgare/Research Code/DensestSubgraph/datasets/";
+string ExactTest::motif_doc = "C:/Users/hgare/Research Code/DensestSubgraph/motif/";
+vector<string> ExactTest::datasets_url = { "testGraph1" };
+vector<string> ExactTest::motif_url = { "triangle" };
+vector<DataReader> ExactTest::g_data;
+vector<DataReader> ExactTest::m_data;
 
 int main() {
     ExactTest test;

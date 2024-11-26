@@ -6,14 +6,16 @@
 #include <algorithm>
 #include "KCore.h"
 
-KCore::KCore(const std::vector<std::vector<int>> &graph)
+using namespace std;
+
+KCore::KCore(const vector<vector<int>> &graph)
 {
     this->graph = graph;
     this->n = graph.size();
-    this->coreReverseFang.resize(n); // 2015-9-17, initialize this array
+    this->coreReverseFang.resize(n); //initialize this array
 }
 
-std::vector<int> KCore::decompose()
+vector<int> KCore::decompose()
 {
     deg.resize(n);
 
@@ -27,7 +29,7 @@ std::vector<int> KCore::decompose()
     }
 
     // Step 2: fill the bin
-    std::vector<int> bin(md + 1, 0);
+    vector<int> bin(md + 1, 0);
     for (int i = 0; i < n; i++) {
         bin[deg[i]] += 1;
     }
@@ -41,8 +43,8 @@ std::vector<int> KCore::decompose()
     }
 
     // Step 4: find the position
-    std::vector<int> pos(n + 1);
-    std::vector<int> vert(n + 1);
+    vector<int> pos(n + 1);
+    vector<int> vert(n + 1);
     for (int v = 0; v < n; v++) {
         pos[v] = bin[deg[v]];
         vert[pos[v]] = v;
@@ -91,17 +93,17 @@ int KCore::obtainMaxCore()
     return max;
 }
 
-std::vector<int> KCore::obtainReverseCoreArr()
+vector<int> KCore::obtainReverseCoreArr()
 {
     return coreReverseFang;
 }
 
-std::string KCore::distribute()
+string KCore::distribute()
 {
     int iteration = 1;
     int size = 5;
     int count = 0;
-    std::string sss = "";
+    string sss = "";
     do {
         count = 0;
         for (int i = 0; i < deg.size(); ++i) {
@@ -110,8 +112,8 @@ std::string KCore::distribute()
             }
         }
         if (count != 0) {
-            sss += "core_number [" + std::to_string(size * (iteration - 1)) + " " + std::to_string(size * iteration) + ")\tnum: " + std::to_string(count) + "\tratio:" + std::to_string(count * 1.0 / deg.size()) + "\n";
-            std::cout << "core_number [" << size * (iteration - 1) << " " << size * iteration << ")\tnum: " << count << "\tratio:" << (count * 1.0 / deg.size()) << std::endl;
+            sss += "core_number [" + to_string(size * (iteration - 1)) + " " + to_string(size * iteration) + ")\tnum: " + to_string(count) + "\tratio:" + to_string(count * 1.0 / deg.size()) + "\n";
+            cout << "core_number [" << size * (iteration - 1) << " " << size * iteration << ")\tnum: " << count << "\tratio:" << (count * 1.0 / deg.size()) << endl;
         }
         iteration++;
     } while (count != 0);
@@ -127,33 +129,33 @@ std::string KCore::distribute()
             count++;
         }
     }
-    sss += "maxCore:" + std::to_string(max) + "\t\tnum: " + std::to_string(count) + "\tratio:" + std::to_string(count * 1.0 / deg.size()) + "\n";
-    std::cout << "maxCore:" << max << "\t\tnum: " << count << "\tratio:" << (count * 1.0 / deg.size()) << std::endl;
+    sss += "maxCore:" + to_string(max) + "\t\tnum: " + to_string(count) + "\tratio:" + to_string(count * 1.0 / deg.size()) + "\n";
+    cout << "maxCore:" << max << "\t\tnum: " << count << "\tratio:" << (count * 1.0 / deg.size()) << endl;
     return sss;
 }
 
-std::vector<std::vector<int>> KCore::readGraphFromFile(const std::string &filename)
+vector<vector<int>> KCore::readGraphFromFile(const string &filename)
 {
-    std::vector<std::vector<int>> Graph;
-    std::ifstream file(filename);
+    vector<vector<int>> Graph;
+    ifstream file(filename);
     if (!file.is_open()) {
-        std::cerr << "File not found: " << filename << std::endl;
+        cerr << "File not found: " << filename << endl;
         return Graph;
     }
 
-    std::string line;
+    string line;
     int vertex = 0;
 
-    std::getline(file, line);
-    std::istringstream iss(line);
+    getline(file, line);
+    istringstream iss(line);
     int graph_size;
     iss >> graph_size;
     Graph.resize(graph_size);
 
-    while (std::getline(file, line)) {
-        std::istringstream iss(line);
+    while (getline(file, line)) {
+        istringstream iss(line);
         iss >> vertex;
-        std::vector<int> neighbors;
+        vector<int> neighbors;
         int neighbor;
         while (iss >> neighbor) {
             neighbors.push_back(neighbor);

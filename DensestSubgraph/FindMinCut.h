@@ -1,16 +1,18 @@
 #include <vector>
 #include <unordered_map>
 
+using namespace std;
+
 #ifndef FINDMINCUT_H
 #define FINDMINCUT_H
 
 class FindMinCut {
 public:
     // data structure used to record flow network
-    std::vector<std::unordered_map<int, std::vector<double>>> FlowNetwork;
+    vector<unordered_map<int, vector<double>>> FlowNetwork;
     
     // array used to save path
-    std::vector<int> parent;
+    vector<int> parent;
     
     // source vertex
     int s = 0;
@@ -18,9 +20,9 @@ public:
     // sink vertex
     int t = 0;
 
-    FindMinCut(std::vector<std::unordered_map<int, std::vector<double>>> FlowNetwork, int s, int t);
+    FindMinCut(vector<unordered_map<int, vector<double>>> FlowNetwork, int s, int t);
     double EdmondsKarp();
-    double augmentPath(std::vector<int>& parent);
-    std::vector<int> getparent();
+    double augmentPath();
+    vector<int> getparent();
 };
 #endif

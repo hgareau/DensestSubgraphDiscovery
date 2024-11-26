@@ -1,7 +1,9 @@
 #include <vector>
 #include "DensestCore.h"
 
-DensestCore::DensestCore(std::vector<std::vector<int>> Graph, int graph_size, int kcore, int delete_vertex, int delete_motif, double densest, int kmax)
+using namespace std;
+
+DensestCore::DensestCore(vector<vector<int>> Graph, int graph_size, int kcore, int delete_vertex, int delete_motif, double densest, int kmax)
 {
     this->Graph = Graph;
     this->graph_size = graph_size;

@@ -5,34 +5,38 @@
 #include <algorithm>
 #include "DataReader.h"
 
-DataReader::DataReader(std::string Graph_File, std::string Motif_File)
+using namespace std;
+
+DataReader::DataReader(string Graph_File, string Motif_File)
 {
     this->Graph_File = Graph_File;
     this->Motif_File = Motif_File;
 }
 
-std::vector<std::vector<int>> DataReader::readGraph()
+//Sets up Adjacency List representative of the graph based on the properly formatted
+//input graph
+vector<vector<int>> DataReader::readGraph()
 {
-    std::vector<std::vector<int>> Graph;
+    vector<vector<int>> Graph;
     long count_edge = 0;
     try {
-        std::ifstream inputFile(Graph_File);
-        std::string line;
+        ifstream inputFile(Graph_File);
+        string line;
         int vertex = 0;
 
-        std::getline(inputFile, line);
-        std::istringstream iss(line);
+        getline(inputFile, line);
+        istringstream iss(line);
         int graph_size;
         iss >> graph_size;
 
         Graph.resize(graph_size);
         this->graph_size = graph_size;
 
-        while (std::getline(inputFile, line)) {
-            std::istringstream iss(line);
+        while (getline(inputFile, line)) {
+            istringstream iss(line);
             int vertex;
             iss >> vertex;
-            std::vector<int> edges;
+            vector<int> edges;
             int edge;
             while (iss >> edge) {
                 edges.push_back(edge);
@@ -40,35 +44,37 @@ std::vector<std::vector<int>> DataReader::readGraph()
             }
             Graph[vertex] = edges;
         }
-        std::cout << "###" << count_edge / 2 << std::endl;
-    } catch (const std::ifstream::failure& e) {
-        std::cerr << "Exception opening/reading/closing file\n";
+        cout << "###" << count_edge / 2 << endl;
+    } catch (const ifstream::failure& e) {
+        cerr << "Exception opening/reading/closing file\n";
     }
     this->Graph = Graph;
     return Graph;
 }
 
-std::vector<std::vector<int>> DataReader::readMotif()
+//Sets up adjacency matrix representative of the motif based on the properly formatted
+//input file
+vector<vector<int>> DataReader::readMotif()
 {
-    std::vector<std::vector<int>> Motif;
+    vector<vector<int>> Motif;
     try {
-        std::ifstream inputFile(Motif_File);
-        std::string line;
-        std::getline(inputFile, line);
-        std::istringstream iss(line);
+        ifstream inputFile(Motif_File);
+        string line;
+        getline(inputFile, line);
+        istringstream iss(line);
         int motif_size;
         iss >> motif_size >> Motif_Type >> Motif_Count;
 
-        Motif.resize(motif_size, std::vector<int>(motif_size, 0));
-        while (std::getline(inputFile, line)) {
-            std::istringstream iss(line);
+        Motif.resize(motif_size, vector<int>(motif_size, 0));
+        while (getline(inputFile, line)) {
+            istringstream iss(line);
             int tempx, tempy;
             iss >> tempx >> tempy;
             Motif[tempx][tempy] = 1;
             Motif[tempy][tempx] = 1;
         }
-    } catch (const std::ifstream::failure& e) {
-        std::cerr << "Exception opening/reading/closing file\n";
+    } catch (const ifstream::failure& e) {
+        cerr << "Exception opening/reading/closing file\n";
     }
     this->Motif = Motif;
     return Motif;

@@ -10,9 +10,11 @@
 #include "ExactAlgo.h"
 #include "DynamicExactAlgo.h"
 
-DynamicExactAlgo::DynamicExactAlgo(std::queue<Component> queue, DensestCore Core, int motif_size)
+using namespace std;
+
+DynamicExactAlgo::DynamicExactAlgo(queue<Component> queue, DensestCore Core, int motif_size)
 {
-    this->queue = queue;
+    this->compQueue = queue;
     this->Core = Core;
     this->motif_size = motif_size;
 }
@@ -20,40 +22,42 @@ DynamicExactAlgo::DynamicExactAlgo(std::queue<Component> queue, DensestCore Core
 MDS DynamicExactAlgo::DynamicExact()
 {
     Component C, index;
-    index = queue.front();
+    index = compQueue.front();
     double low_bound = 0;
 
-    while (!queue.empty()) {
-        C = queue.front();
-        queue.pop();
+    queue<Component> queueCopy = compQueue;
+
+    while (!queueCopy.empty()) {
+        C = queueCopy.front();
+        queueCopy.pop();
         if (low_bound < C.densest) {
             low_bound = C.densest;
             index = C;
         }
     }
 
-    if (std::ceil(low_bound) < std::ceil(Core.densest)) {
+    if (ceil(low_bound) < ceil(Core.densest)) {
         low_bound = Core.densest;
     }
 
     double up_bound = Core.kmax;
 
-    std::vector<int> placeholder;
+    vector<int> placeholder;
 
     MDS mds(placeholder, index.motif_num, index.graph_size, low_bound);
 
-    while (!queue.empty()) {
-        C = queue.front();
-        queue.pop();
+    while (!compQueue.empty()) {
+        C = compQueue.front();
+        compQueue.pop();
 
         ExactAlgo exact(C.motif_list, motif_size, C.graph_size, C.motif_degree);
-        std::vector<int> res = exact.Exact(std::ceil(low_bound), std::ceil(up_bound) + 1, C.motif_num);
+        vector<int> res = exact.Exact(ceil(low_bound), ceil(up_bound) + 1, C.motif_num);
 
         long motif_num = 0;
         int vertex_num = 0;
 
         for (auto& entry : C.motif_list) {
-            std::vector<int>& temp = entry.second;
+            vector<int>& temp = entry.second;
             int i = 0;
             for (; i < temp.size() - 1; ++i) {
                 if (res[temp[i]] == -1)

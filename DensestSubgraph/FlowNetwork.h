@@ -2,19 +2,21 @@
 #include <unordered_map>
 #include <string>
 
+using namespace std;
+
 #ifndef FLOWNETWORK_H
 #define FLOWNETWORK_H
 
 class FlowNetwork {
 public:
-    std::unordered_map<std::string, std::vector<int>> Motif_Record;
+    unordered_map<string, vector<int>> Motif_Record;
     int motif_size;
     int graph_size;
-    std::vector<std::unordered_map<int, std::vector<double>>> FlowNetwork1;
-    std::vector<int> Motif_degree;
+    vector<unordered_map<int, vector<double>>> FlowNetwork1;
+    vector<int> Motif_degree;
     
-    FlowNetwork(std::unordered_map<std::string, std::vector<int>> map, int motif_size, int graph_size, std::vector<int> Motif_degree);
-    std::vector<std::unordered_map<int, std::vector<double>>> Construct(double alph);
-    std::vector<std::unordered_map<int, std::vector<double>>> Update(double alph);
+    FlowNetwork(unordered_map<string, vector<int>> map, int motif_size, int graph_size, vector<int> Motif_degree);
+    vector<unordered_map<int, vector<double>>> Construct(double alph);
+    vector<unordered_map<int, vector<double>>> Update(double alph);
 };
 #endif

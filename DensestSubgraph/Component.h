@@ -2,19 +2,21 @@
 #include <string>
 #include <unordered_map>
 
+using namespace std;
+
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
 class Component {
 public:
     // Adjacency list of this component
-    std::vector<std::vector<int>> Graph;
+    vector<vector<int>> Graph;
 
     // Size of the subgraph
     int graph_size;
 
     // List of the motifs in this subgraph
-    std::unordered_map<std::string, std::vector<int>> motif_list;
+    unordered_map<string, vector<int>> motif_list;
 
     // The number of motifs in this subgraph
     long motif_num;
@@ -23,11 +25,11 @@ public:
     double densest;
 
     // The motif degrees of the vertices in this subgraph
-    std::vector<int> motif_degree;
+    vector<int> motif_degree;
 
     // Constructor
-    Component(std::vector<std::vector<int>> Graph, int graph_size, 
-          std::unordered_map<std::string, std::vector<int>> motif_list, long motif_num, double densest, std::vector<int> motif_degree);
+    Component(vector<vector<int>> Graph, int graph_size, 
+          unordered_map<string, vector<int>> motif_list, long motif_num, double densest, vector<int> motif_degree);
 
     Component();
 };

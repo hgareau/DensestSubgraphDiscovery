@@ -5,21 +5,23 @@
 #include <string>
 #include <algorithm>
 
+using namespace std;
+
 #ifndef KCORE_H
 #define KCORE_H
 
 class KCore {
 public:
-    std::vector<std::vector<int>> graph;
+    vector<vector<int>> graph;
     int n;
-    std::vector<int> deg;
-    std::vector<int> coreReverseFang; // 2015-9-17, an array sorted by coreness in descending order
+    vector<int> deg;
+    vector<int> coreReverseFang; // 2015-9-17, an array sorted by coreness in descending order
 
-    KCore(const std::vector<std::vector<int>>& graph);
-    std::vector<int> decompose();
+    KCore(const vector<vector<int>>& graph);
+    vector<int> decompose();
     int obtainMaxCore();
-    std::vector<int> obtainReverseCoreArr();
-    std::string distribute();
-    static std::vector<std::vector<int>> readGraphFromFile(const std::string& filename);
+    vector<int> obtainReverseCoreArr();
+    string distribute();
+    static vector<vector<int>> readGraphFromFile(const string& filename);
 };
 #endif
