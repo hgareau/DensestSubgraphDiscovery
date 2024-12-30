@@ -129,7 +129,7 @@ public:
 string ExactTest::dataset_doc = "C:/Users/hgare/Research Code/DensestSubgraph/datasets/";
 string ExactTest::motif_doc = "C:/Users/hgare/Research Code/DensestSubgraph/motif/";
 vector<string> ExactTest::datasets_url = { "testGraph1" };
-vector<string> ExactTest::motif_url = { "triangle" };
+vector<string> ExactTest::motif_url = { "edge" };
 vector<DataReader> ExactTest::g_data;
 vector<DataReader> ExactTest::m_data;
 
