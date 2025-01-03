@@ -1,0 +1,23 @@
+Resources and APA References
+
+
+Intro to Parallel Programming:
+
+https://www.youtube.com/watch?v=F620ommtjqk&list=PLAwxTw4SYaPnFKojVQrmyOGFCqHTxfdv2
+
+Reference- 
+
+
+A Survey of Densest Subgraph Discovery on Large Graphs: 
+
+https://arxiv.org/abs/2306.07927
+
+Reference- 
+
+
+
+Efficient Algorithms for Densest Subgraph Discovery:
+
+https://www.vldb.org/pvldb/vol12/p1719-fang.pdf
+
+Reference- 

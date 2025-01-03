@@ -2,15 +2,15 @@ Thesis Outline
 
 
 Chapter 1 - Introduction:
-   GPU and CUDA
    Densest Subgraph Discovery Problem
+   GPU and CUDA
    Goal and Purpose of Study
 
 Chapter 2 - Existing Solutions:
    (Go over various existing papers/programs that solve the problem)
    Introduce the paper our base solution comes from
 
-Chapter 3 - Algorithm Breakdown:
+Chapter 3 - Algorithm:
    Motifs (don't know exactly when to cover this one)
    Adjacency Lists and Matrices
    Flow Network
@@ -21,5 +21,4 @@ Chapter 3 - Algorithm Breakdown:
 
 Chapter 4 - Implementation
 Chapter 5 - Experimentation
-Chapter 6 - Results
-Chapter 7 - Conclusion
+Chapter 6 - Conclusion
