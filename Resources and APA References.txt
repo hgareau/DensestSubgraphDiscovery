@@ -13,7 +13,7 @@ A Survey of Densest Subgraph Discovery on Large Graphs:
 https://arxiv.org/abs/2306.07927
 
 Reference- 
-
+[#] W. Luo, C. Ma, Y. Fang, and L. V.S. Lakshmanan (2023, Jun. 14). A Survey of Densest Subgraph Discovery on Large Graphs, Accessed on Jan. 6, 2025. [Online]. Available: https://arxiv.org/abs/2306.07927
 
 
 Efficient Algorithms for Densest Subgraph Discovery:
