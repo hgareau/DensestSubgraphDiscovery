@@ -56,6 +56,7 @@ MDS DynamicExactAlgo::DynamicExact()
         long motif_num = 0;
         int vertex_num = 0;
 
+        //this is to find density
         for (auto& entry : C.motif_list) {
             vector<int>& temp = entry.second;
             int i = 0;
