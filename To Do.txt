@@ -1,0 +1,14 @@
+This is just a list of things to keep in mind going forward:
+
+- Need to gather and put together visuals.
+	(note: visuals for building the CoreExact algorithm likely smart)
+
+- Need to go more in depth as to how the Flow Network and Min st-cut loop finds the densest subgraph.
+
+- Need to go more in depth on the bounding (u - l >= certain value)
+
+- Probably need more sources, especially to back up certain claims.
+
+- Need to revisit each section for clarity.
+
+- Need to add Implementation and onward after program is complete.

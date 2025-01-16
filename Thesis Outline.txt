@@ -17,10 +17,10 @@ Chapter 2 - Existing Solutions:
 Chapter 3 - Algorithm:
    Motifs (don't know exactly when to cover this one)
    Adjacency Lists and Matrices
+   Core Decomposition
    Flow Network
    Min st-cut and Edmond's Karp
    Exact Algorithm (Golberg's Max Flow Algorithm)
-   Core Decomposition
    Peeling/Pruning Methodology
 
 Chapter 4 - Implementation
