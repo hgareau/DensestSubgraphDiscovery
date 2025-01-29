@@ -12,3 +12,5 @@ This is just a list of things to keep in mind going forward:
 - Need to revisit each section for clarity.
 
 - Need to add Implementation and onward after program is complete.
+
+- Fill in highlighted sections.
