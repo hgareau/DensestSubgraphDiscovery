@@ -14,7 +14,9 @@ Chapter 2 - Existing Solutions:
    Greedy++
    Intro to CoreExact
 
-Chapter 3 - Algorithm:
+Possibly could split into "DSD solutions" and "related solutions"?
+
+Chapter 3 - The CoreExact Algorithm:
    Motifs (don't know exactly when to cover this one)
    Adjacency Lists and Matrices
    Core Decomposition
@@ -23,6 +25,6 @@ Chapter 3 - Algorithm:
    Exact Algorithm (Golberg's Max Flow Algorithm)
    Peeling/Pruning Methodology
 
-Chapter 4 - Implementation
+Chapter 4 - Our Parallelized Implementation
 Chapter 5 - Experimentation
 Chapter 6 - Conclusion
