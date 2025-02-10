@@ -20,8 +20,8 @@ Chapter 3 - The CoreExact Algorithm:
    Motifs (don't know exactly when to cover this one)
    Adjacency Lists and Matrices
    Core Decomposition
-   Flow Network
-   Min st-cut and Edmond's Karp
+   Flow Network and Min st-cut
+   Golberg's Flow Network
    Exact Algorithm (Golberg's Max Flow Algorithm)
    Peeling/Pruning Methodology
 
