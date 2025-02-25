@@ -3,13 +3,9 @@ This is just a list of things to keep in mind going forward:
 - Need to gather and put together visuals.
 	(note: visuals for building the CoreExact algorithm likely smart)
 
-- Replace the 2 highlighted "Existing Solutions" with Related Works from the CoreExact paper
+- Cover how min st-cut gets subgraphs and how the u - l bounding works (if math is covered is tbd)
 
-- Need to go more in depth as to how the Flow Network and Min st-cut loop finds the densest subgraph. (maybe include math here)
-
-- Need to go more in depth on the bounding (u - l >= certain value) (maybe include math here)
-
-- Probably need more sources, especially to back up certain claims.
+- Explore adding additional sources for certain claims.
 
 - Need to revisit each section for clarity.
 
@@ -18,6 +14,8 @@ This is just a list of things to keep in mind going forward:
 - Fill in highlighted sections.
 
 - Restructure Table of Contents to include all subsections
+
+- Fill in List of Figures and Tables.
 
 - Add references page (can be done automatically through Word using the "Bibliography" tool under the References tab of Word).
 
