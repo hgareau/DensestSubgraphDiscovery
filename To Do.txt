@@ -1,9 +1,15 @@
 This is just a list of things to keep in mind going forward:
 
+- Include time complexity analyzation. (How in depth though?)
+
+- Include proofs? (kinda did this already but could look into doing more?)
+
 - Need to gather and put together visuals.
 	(maybe include visuals for CoreExact and maybe Goldberg's algorithm)
 
 - Explore adding additional sources for certain claims.
+
+- Implement dynamic List of Tables if using them.
 
 - Need to revisit each section for clarity.
 
