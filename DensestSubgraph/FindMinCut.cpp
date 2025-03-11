@@ -36,7 +36,6 @@ double FindMinCut::EdmondsKarp()
     double result = augmentPath();
     double sum = 0;
     vector<double> temp;
-    int counter = 0;
 
     // while result does NOT equal -1 (aka there are still paths remaining)
     while (result != -1) {
@@ -59,12 +58,8 @@ double FindMinCut::EdmondsKarp()
         // add the max flow along the path to sum (which will be max flow in the graph)
         sum += result;
 
-        if (counter >= 4597) {
-            int dummy5 = 0;
-        }
         // find the max flow along the next shortest path in the graph
         result = augmentPath();
-        counter++;
     }
         
     // returns the maximum flow of the graph
