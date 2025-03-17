@@ -1,7 +1,5 @@
 This is just a list of things to keep in mind going forward:
 
-- Include time complexity analyzation. (How in depth though?)
-
 - Include proofs? (kinda did this already but could look into doing more?)
 
 - Need to gather and put together visuals.
@@ -17,11 +15,9 @@ This is just a list of things to keep in mind going forward:
 
 - Fill in highlighted sections.
 
-- Restructure Table of Contents to include all subsections
+- Make sure all Chapters and subsections are covered in the Table of Contents.
 
-- Fill in List of Figures and Tables.
-
-- Add references page (can be done automatically through Word using the "Bibliography" tool under the References tab of Word).
+- Update List of Figures and Tables.
 
 Maybe Do:
 
