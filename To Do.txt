@@ -2,9 +2,7 @@ This is just a list of things to keep in mind going forward:
 
 - Start reading and understanding CUDA code, so I can write about the parallelized implementations. (use ChatGPT to understand if needed)
 
-- Need to address the difference between motifs and cliques, and that the CUDA code only does cliques.
-
-- Maybe need to go into motif listing, densest kcore building/pruning. This would be both in Chapter 4 and Chapter 3.
+- Maybe need to go into densest kcore building/pruning. This would be both in Chapter 4 and Chapter 3.
 
 - Explore adding additional sources for certain claims.
 
