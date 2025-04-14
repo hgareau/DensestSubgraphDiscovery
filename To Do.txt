@@ -2,7 +2,7 @@ This is just a list of things to keep in mind going forward:
 
 - Start reading and understanding CUDA code, so I can write about the parallelized implementations. (use ChatGPT to understand if needed)
 
-- Maybe need to go into densest kcore building/pruning. This would be both in Chapter 4 and Chapter 3.
+- Update table of contents.
 
 - Explore adding additional sources for certain claims.
 
