@@ -26,5 +26,5 @@ Chapter 3 - The CoreExact Algorithm:
    Peeling/Pruning Methodology
 
 Chapter 4 - Our Parallelized Implementation
-Chapter 5 - Experimentation
+Chapter 5 - Experimentation and Evaluation
 Chapter 6 - Conclusion
