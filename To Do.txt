@@ -2,13 +2,11 @@ This is just a list of things to keep in mind going forward:
 
 - Start reading and understanding CUDA code, so I can write about the parallelized implementations. (use ChatGPT to understand if needed)
 
+- Run experiments.
+
 - Finish combing through Guo comments.
 
-- Update GPU and CUDA section.
-
 - Do I need to cover how clique data is stored between components and "clique nodes"? It's a potentially notable structure change.
-
-- Should I mention which "Parallel structure" figure each parallelization is close to? Like "this follows the structure seen in Figure 11".
 
 - Make sure all references to Figures use the correct number.
 
@@ -21,8 +19,6 @@ This is just a list of things to keep in mind going forward:
 - Implement dynamic List of Tables if using them.
 
 - Need to revisit each section for clarity.
-
-- Need to add Implementation and onward after program is complete.
 
 - Fill in highlighted sections.
 
