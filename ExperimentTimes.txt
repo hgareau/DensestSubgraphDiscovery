@@ -1,0 +1,110 @@
+Results:
+
+Edges - 
+
+Facebook
+density: 77.34653465346534
+Num of Cliques/edges: 15624
+TIME TO RUN: 136412 milliseconds
+
+Autonomous Systems
+density: 8.555555555555555
+Num of Cliques/edges: 539
+Num of Vertices: 63
+TIME TO RUN: 817
+
+Crocodile Wikipedia
+density: 50.96478873239437
+Num of Cliques/edges: 14474
+Num of Vertices: 284
+TIME TO RUN: 3058332
+
+Deezer Europe
+density: 8.531055900621118
+Num of Cliques/edges: 2747
+Num of Vertices: 322
+TIME TO RUN: 23545
+
+Scientific Co-Authors
+density: 13.366666666666667
+Num of Cliques/edges: 401
+Num of Vertices: 30
+TIME TO RUN: 76683
+
+Random Graph 1
+density: 12.553106212424849
+Num of Cliques/edges: 6264
+Num of Vertices: 499
+TIME TO RUN: 16875
+
+Random Graph 2
+density: 125.24
+Num of Cliques/edges: 62620
+Num of Vertices: 500
+TIME TO RUN: 548236
+
+Random Graph 3
+density: 25.053
+Num of Cliques/edges: 25053
+Num of Vertices: 1000
+TIME TO RUN: 283728
+
+Random Graph 4
+density: 12.50521669341894
+Num of Cliques/edges: 31163
+Num of Vertices: 2492
+TIME TO RUN: 1064530
+
+Random Graph 5
+density: 2.6218705715635333
+Num of Cliques/edges: 11101
+Num of Vertices: 4234
+TIME TO RUN: 276400
+
+
+3-cliques - 
+
+Facebook
+
+Autonomous Systems
+
+Crocodile Wikipedia
+
+Deezer
+(REPLACE)
+
+Scientific Co-Authors
+
+Random Graph 1
+
+Random Graph 2
+
+Random Graph 3
+
+Random Graph 4
+
+Random Graph 5
+
+
+4-cliques - 
+
+Facebook
+
+Autonomous Systems
+
+Crocodile Wikipedia
+
+Deezer
+(REPLACE)
+
+Scientific Co-Authors
+
+Random Graph 1
+
+Random Graph 2
+
+Random Graph 3
+
+Random Graph 4
+
+Random Graph 5
