@@ -28,6 +28,8 @@ This is just a list of things to keep in mind going forward:
 
 - Update List of Figures and Tables.
 
+- Refer to Jenn Tharp notes (stored in repository)
+
 Maybe Do:
 
 - Links that jump to page in Table of Contents

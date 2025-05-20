@@ -1,0 +1,45 @@
+Jenn Tharp Notes
+
+Title Page:
+
+Please revise the Title Page. This page should have a top margin of (1.75) inches, with the thesis/dissertation title appearing (1.75) inches from the top of the page. See this sample document for an example: https://sites.rowan.edu/sgs/graduate-academic-services/samples/apa7-humanities-thesis-example-document-final.pdf
+
+Please revise the Title Page. Everything from “Submitted to the” to the date of your defense should be single-spaced.
+
+
+
+Page Numbering:
+
+Please revise your page number font to match the font used throughout the rest of the document. Your preliminary pages’ page number font is currently incorrect.
+
+ 
+
+Abstract Page:
+
+Please revise the Abstract Page. Heading material should be single spaced beginning with your name and ending with the proper degree name.
+
+Please use “Guimu Guo, Ph.D.” instead of “Dr. Guimu Guo” in the abstract heading material.
+
+ 
+
+Table of Contents:
+
+Please do not italicize any of the entries in your Table of Contents.
+
+Please include chapter numbers and titles in your Table of Contents. All chapter headings and titles should remain on the same line, separated by a colon, in the Table of Contents. (Example: Chapter 1: Introduction; Chapter 2: Literature Review; etc.) (If you are using the Word’s automatic ToC generator, you can use the work-around outlined in red in this guide to format your chapter headings correctly in both the text and the ToC.)
+
+Please capitalize the first letter of each important word in your headings, both on the ToC and in the headings as they appear in the text.
+
+ 
+
+Headings in the Text:
+
+Please begin each new chapter at the top of a new page.
+
+Please capitalize the first letter of each important word in your headings, both on the ToC and in the headings as they appear in the text. This includes both sides of a hyphenated word.
+
+ 
+
+Figures and Tables in the Text:
+
+Please revise tables and figures in the body of the document. Insert an extra line break of space above and below all tables and figures, separating each table and figure from the material around them. Do not add space above figures that appear first on a page, or below figures that appear last on a page. Please see this sample document for correct examples of that spacing: https://sites.rowan.edu/sgs/graduate-academic-services/samples/apa7-humanities-thesis-example-document-final.pd
