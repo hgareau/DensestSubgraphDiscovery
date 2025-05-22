@@ -1,31 +1,36 @@
 Real Graphs:
 
-Facebook - consists of Facebook users as nodes and friends are represented by edges.
-Nodes: 4039, Edges: 88234
+Tortoise Network - Nodes represent desert tortoises and edges represent tortoises that have interacted.
+Nodes: 755, Edges: 479
+https://networkrepository.com/reptilia-tortoise-network-fi-2011.php
 
-Autonomous Systems - Groups of routers form an autonomous system. With those as nodes, traffic flow between AS's can be repped as edges.
-Nodes: 6474, Edges: 13895
+Yeast Network - Nodes represent proteins and edges represent connections.
+Nodes: 1459, Edges: 1948
+https://networkrepository.com/bio-yeast.php
 
-Crocodile Wikipedia - Nodes are articles on Wikipedia about crocodiles. Edges are links between these pages.
-Nodes: 11632, Edges: 170918
+Power Grid - Nodes represent power stations and substations in western US. Edges are power lines connecting them.
+Nodes: 4942, Edges: 6594
+https://networkrepository.com/inf-power.php
 
-Deezer - Nodes represent users from Croatia of the music streaming platform Deezer. Edges represent pairs of friends on Deezer.
-Nodes: 54573, Edges: 498,202
+Deezer - Nodes represent users from Europe of the music streaming platform Deezer. Edges represent pairs of friends on Deezer.
+Nodes: 28281, Edges: 92,752
+https://snap.stanford.edu/data/feather-deezer-social.html
 
 Scientific Co-Authors - Nodes represent authors submitting paper in the Condense Matter category. Edges represent if they co-authored with another author before.
 Nodes: 108300, Edges: 186936
+https://snap.stanford.edu/data/ca-CondMat.html
 
 https://snap.stanford.edu/data/
-
+https://networkrepository.com/index.php
 
 Random Graphs:
 
-1 - 1000 nodes, .5% chance of connection
+1 - 500 Nodes, 5% chance of connection (6276 edges)
 
-2 - 1000 nodes, 5% chance of connection
+2 - 500 Nodes, 10% chance of connection (12372 edges)
 
-3 - 5000 nodes, .5% chance of connection
+3 - 1000 Nodes, 5% chance of connection (25053 edges)
 
-4 - 10000 nodes, 0.02% chance of connection
+4 - 2500 Nodes, 1% chance of connection (31256 edges)
 
-5 - 10000 nodes, 0.1% chance of connection
+5 - 5000, 0.1% chance of connection (12385 edges)

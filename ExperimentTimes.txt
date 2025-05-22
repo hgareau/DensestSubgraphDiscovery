@@ -2,22 +2,23 @@ Results:
 
 Edges - 
 
-Facebook
-density: 77.34653465346534
-Num of Cliques/edges: 15624
-TIME TO RUN: 136412 milliseconds
+Tortoise Social Network
+density: 2.7
+Num of Cliques/edges: 27
+Num of Vertices: 10
+TIME TO RUN: 144
 
-Autonomous Systems
-density: 8.555555555555555
-Num of Cliques/edges: 539
-Num of Vertices: 63
-TIME TO RUN: 817
+Yeast Proteins
+density: 2.260869565217391
+Num of Cliques/edges: 312
+Num of Vertices: 138
+TIME TO RUN: 403
 
-Crocodile Wikipedia
-density: 50.96478873239437
-Num of Cliques/edges: 14474
-Num of Vertices: 284
-TIME TO RUN: 3058332
+US Power Grid
+density: 3.125
+Num of Cliques/edges: 50
+Num of Vertices: 16
+TIME TO RUN: 462
 
 Deezer Europe
 density: 8.531055900621118
@@ -38,53 +39,49 @@ Num of Vertices: 499
 TIME TO RUN: 16875
 
 Random Graph 2
-density: 125.24
-Num of Cliques/edges: 62620
+density: 24.744
+Num of Cliques/edges: 12372
 Num of Vertices: 500
-TIME TO RUN: 548236
+TIME TO RUN: 59243
 
 Random Graph 3
 density: 25.053
 Num of Cliques/edges: 25053
 Num of Vertices: 1000
-TIME TO RUN: 283728
+TIME TO RUN: 228629
 
 Random Graph 4
 density: 12.50521669341894
 Num of Cliques/edges: 31163
 Num of Vertices: 2492
-TIME TO RUN: 1064530
+TIME TO RUN: 1021662
 
 Random Graph 5
 density: 2.6218705715635333
 Num of Cliques/edges: 11101
 Num of Vertices: 4234
-TIME TO RUN: 276400
-
+TIME TO RUN: 278561
 
 
 3-cliques - 
 
-ERROR
-Facebook
-density: 3394.1794871794873
-Num of Cliques/edges: 661865
-Num of Vertices: 195
-TIME TO RUN: 2198
+Tortoise Social Network
+density: 3.125
+Num of Cliques/edges: 25
+Num of Vertices: 8
+TIME TO RUN: 89
 
-ERROR
-Autonomous Systems
-density: 35.90909090909091
-Num of Cliques/edges: 1185
-Num of Vertices: 33
-TIME TO RUN: 278
+Yeast Proteins
+density: 3.7142857142857144
+Num of Cliques/edges: 26
+Num of Vertices: 7
+TIME TO RUN: 114
 
-ERROR
-Crocodile Wikipedia
-density: 568.5382262996942
-Num of Cliques/edges: 185912
-Num of Vertices: 327
-TIME TO RUN: 1675
+US Power Grid
+density: 3.6875
+Num of Cliques/edges: 59
+Num of Vertices: 16
+TIME TO RUN: 332
 
 Deezer
 density: 33.407407407407405
@@ -104,28 +101,26 @@ Num of Cliques/edges: 2520
 Num of Vertices: 482
 TIME TO RUN: 9365
 
-ERROR
 Random Graph 2
-density: 5238.746
-Num of Cliques/edges: 2619373
-Num of Vertices: 500
-TIME TO RUN: 11642
+density: 40.66733466933868
+Num of Cliques/edges: 20293
+Num of Vertices: 499
+TIME TO RUN: 1187069
 
 Random Graph 3
 density: 20.79759519038076
 Num of Cliques/edges: 20756
 Num of Vertices: 998
-TIME TO RUN: 1445794
+TIME TO RUN: 1566331
 
 Random Graph 4
 density: 1.2129735935706085
 Num of Cliques/edges: 2113
 Num of Vertices: 1742
-TIME TO RUN: 11866
+TIME TO RUN: 12231
 
 Random Graph 5
 density: 0.3333333333333333
 Num of Cliques/edges: 1
 Num of Vertices: 3
-TIME TO RUN: 159
-
+TIME TO RUN: 291
